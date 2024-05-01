@@ -24,7 +24,6 @@ app.use((req, res, next) => {
 const adminRoutes = require("./src/routes/admin");
 const questRoutes = require("./src/routes/quest");
 const  twitterAuthentication = require('./src/routes/twitterAuthentication');
-const { default: axios } = require("axios");
 app.use(adminRoutes);
 app.use(questRoutes);
 app.use(twitterAuthentication);
