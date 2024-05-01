@@ -27,7 +27,49 @@ app.use(adminRoutes);
 app.use(questRoutes);
 app.use(twitterAuthentication);
 
+app.get('/twitter-success', async (req, res) => {
+  const { code } = req.body;
 
+  try {
+    // Exchange authorization code for an access token
+    const response = await axios.post('https://api.twitter.com/oauth/access_token', null, {
+      params: {
+        grant_type: 'authorization_code',
+        client_id: 'YOUR_CLIENT_ID',
+        client_secret: 'YOUR_CLIENT_SECRET',
+        code,
+        redirect_uri: 'http://localhost:5173/twitter-success', // Must match the original redirect URI
+      },
+    });
+
+    const accessToken = response.data.access_token;
+    // Now you have the access token!
+
+    // Use the access token to make authenticated requests to Twitter API
+    // For example, get user data:
+    const userResponse = await axios.get('https://api.twitter.com/2/users/me', {
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+      },
+    });
+
+    // Now you have the user data!
+    console.log(userResponse);
+    // Handle the user data as needed (e.g., store in database, etc.)
+
+    // Redirect the user to a success page
+    res.status(200).json({token : accessToken, userResponse});
+  } catch (error) {
+    console.error('Error exchanging authorization code:', error);
+    res.status(500).send('Error exchanging authorization code');
+  }
+});
+
+// Start your server
+const PORT = process.env.PORT || 5173;
+app.listen(PORT, () => {
+  console.log(`Server running on port ${PORT}`);
+});
 
 
 // Start server
