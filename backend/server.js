@@ -39,8 +39,7 @@ app.get("/twitter-success/:code", async (req, res) => {
  
 
     // Make the token request
-    axios
-    .post("https://api.twitter.com/oauth/access_token", null, {
+   const response = await axios.post("https://api.twitter.com/oauth/access_token", null, {
       params: {
         code: code,
         grant_type: "authorization_code",
@@ -49,10 +48,10 @@ app.get("/twitter-success/:code", async (req, res) => {
     })
     .then((response) => {
       console.log(response);
-      resolve(response.data);
+      
     })
     .catch((error) => {
-      reject(error.response.data);
+      console.log(error);
     });
 
     
