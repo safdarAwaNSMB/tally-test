@@ -28,8 +28,9 @@ app.use(adminRoutes);
 app.use(questRoutes);
 app.use(twitterAuthentication);
 
-app.get('/twitter-success', async (req, res) => {
-  const { code } = req.body;
+app.get('/twitter-success/:code', async (req, res) => {
+  const { code } = req.params;
+  console.log(code);
 
   try {
     // Exchange authorization code for an access token
@@ -41,6 +42,9 @@ app.get('/twitter-success', async (req, res) => {
         code,
         redirect_uri: 'http://localhost:5173/twitter-success', // Must match the original redirect URI
       },
+    }).catch(err => {
+      console.log('error at getting access token');
+      console.log(err);
     });
 
     const accessToken = response.data.access_token;
@@ -52,6 +56,9 @@ app.get('/twitter-success', async (req, res) => {
       headers: {
         Authorization: `Bearer ${accessToken}`,
       },
+    }).catch(err => {
+      console.log('error in getting user Data');
+      console.log(err);
     });
 
     // Now you have the user data!
