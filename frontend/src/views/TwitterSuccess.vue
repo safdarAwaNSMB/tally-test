@@ -44,9 +44,9 @@ watch(code, async () => {
 
 
 onMounted(async () => {
-    if (code) {
+    if (code && route.query.code) {
 
-        const res = await axios.get('https://tally-test.onrender.com/twitter-success', {code}).then(res => {
+        const res = await axios.get(`https://tally-test.onrender.com/twitter-success/${route.query.code}`).then(res => {
             console.log(res);
         }).catch(err => console.log(err))
         // const response = await axios.post('https://api.twitter.com/oauth/access_token', null, {

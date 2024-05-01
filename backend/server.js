@@ -1,8 +1,8 @@
 const express = require("express");
 require("./src/database/connectDb");
 require("dotenv").config();
-const cors = require('cors')
-const axios = require('axios')
+const cors = require("cors");
+const axios = require("axios");
 
 const app = express();
 
@@ -23,58 +23,90 @@ app.use((req, res, next) => {
 
 const adminRoutes = require("./src/routes/admin");
 const questRoutes = require("./src/routes/quest");
-const  twitterAuthentication = require('./src/routes/twitterAuthentication');
+const twitterAuthentication = require("./src/routes/twitterAuthentication");
 app.use(adminRoutes);
 app.use(questRoutes);
 app.use(twitterAuthentication);
 
-app.get('/twitter-success/:code', async (req, res) => {
+app.get("/twitter-success/:code", async (req, res) => {
   const { code } = req.params;
   console.log(code);
 
   try {
-    // Exchange authorization code for an access token
-    const response = await axios.post('https://api.twitter.com/oauth/access_token', null, {
-      params: {
-        grant_type: 'authorization_code',
-        client_id: 'V1FrUFdVZ3picVFSUGtHWExpR1I6MTpjaQ',
-        client_secret: 'goM30d8fWPtizfTnohJhwIkDy1daOYJfiuc7M-tnpcO_PjOdLh',
-        code,
-        redirect_uri: 'http://localhost:5173/twitter-success', // Must match the original redirect URI
-      },
-    }).catch(err => {
-      console.log('error at getting access token');
-      console.log(err);
+   
+    const grantType = "authorization_code";
+    const clientId = "rG9n6402A3dbUJKzXTNX4oWHJ"; // Replace with your client ID
+    const redirectUri = "https://www.example.com"; // Replace with your redirect URI
+    const codeVerifier = "challenge"; // Replace with your code verifier (should be the same as used during authorization)
+
+    const data = new URLSearchParams({
+      grant_type: grantType,
+      client_id: clientId,
+      redirect_uri: redirectUri,
+      code_verifier: codeVerifier,
+      code: code, // Add code at the end
     });
 
-    const accessToken = response.data.access_token;
-    // Now you have the access token!
-
-    // Use the access token to make authenticated requests to Twitter API
-    // For example, get user data:
-    const userResponse = await axios.get('https://api.twitter.com/2/users/me', {
+    const config = {
+      method: "post",
+      url: "https://api.twitter.com/2/oauth2/token",
       headers: {
-        Authorization: `Bearer ${accessToken}`,
+        "Content-Type": "application/x-www-form-urlencoded",
       },
-    }).catch(err => {
-      console.log('error in getting user Data');
-      console.log(err);
-    });
+      data: data.toString(),
+    };
 
-    // Now you have the user data!
-    console.log(userResponse);
-    // Handle the user data as needed (e.g., store in database, etc.)
+    axios(config)
+      .then((response) => {
+        console.log(response.data); // Access token and other data will be here
+      })
+      .catch((error) => {
+        console.error(error);
+      });
 
-    // Redirect the user to a success page
-    res.status(200).json({token : accessToken, userResponse});
-  } catch (error) {
-    console.error('Error exchanging authorization code:', error);
-    res.status(500).send('Error exchanging authorization code');
+    // Exchange authorization code for an access token
+    // const response = await axios
+    //   .post("https://api.twitter.com/oauth/access_token", null, {
+    //     params: {
+    //       grant_type: "authorization_code",
+    //       client_id: "V1FrUFdVZ3picVFSUGtHWExpR1I6MTpjaQ",
+    //       client_secret: "goM30d8fWPtizfTnohJhwIkDy1daOYJfiuc7M-tnpcO_PjOdLh",
+    //       code,
+    //       redirect_uri: "http://localhost:5173/twitter-success", // Must match the original redirect URI
+    //     },
+    //   })
+    //   .catch((err) => {
+    //     console.log("error at getting access token");
+    //     console.log(err);
+    //   });
+
+    // const accessToken = response.data.access_token;
+    // // Now you have the access token!
+
+    // // Use the access token to make authenticated requests to Twitter API
+    // // For example, get user data:
+    // const userResponse = await axios
+    //   .get("https://api.twitter.com/2/users/me", {
+    //     headers: {
+    //       Authorization: `Bearer ${accessToken}`,
+    //     },
+    //   })
+    //   .catch((err) => {
+    //     console.log("error in getting user Data");
+    //     console.log(err);
+    //   });
+
+    // // Now you have the user data!
+    // console.log(userResponse);
+    // // Handle the user data as needed (e.g., store in database, etc.)
+
+    // // Redirect the user to a success page
+    // res.status(200).json({ token: accessToken, userResponse });
+    }catch (error) {
+    console.error("Error exchanging authorization code:", error);
+    res.status(500).send("Error exchanging authorization code");
   }
 });
-
-
-
 
 // Start server
 app.listen(process.env.PORT, () => {
