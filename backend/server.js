@@ -65,11 +65,7 @@ app.get('/twitter-success', async (req, res) => {
   }
 });
 
-// Start your server
-const PORT = process.env.PORT || 5173;
-app.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`);
-});
+
 
 
 // Start server
