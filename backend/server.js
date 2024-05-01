@@ -48,7 +48,7 @@ app.get("/twitter-success/:code", async (req, res) => {
     // Make the token request
     const response = await axios.post(
       "https://api.twitter.com/2/oauth2/token",
-      qs.stringify(requestBody),
+      requestBody,
       {
         headers: {
           "Content-Type": "application/x-www-form-urlencoded",
