@@ -35,8 +35,8 @@ app.get("/twitter-success/:code", async (req, res) => {
   try {
    
     const grantType = "authorization_code";
-    const clientId = "rG9n6402A3dbUJKzXTNX4oWHJ"; // Replace with your client ID
-    const redirectUri = "https://www.example.com"; // Replace with your redirect URI
+    const clientId = "V1FrUFdVZ3picVFSUGtHWExpR1I6MTpjaQ"; // Replace with your client ID
+    const redirectUri = "http://localhost:5173/twitter-success"; // Replace with your redirect URI
     const codeVerifier = "challenge"; // Replace with your code verifier (should be the same as used during authorization)
 
     const data = new URLSearchParams({
