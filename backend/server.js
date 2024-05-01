@@ -3,7 +3,7 @@ require("./src/database/connectDb");
 require("dotenv").config();
 const cors = require("cors");
 const axios = require("axios");
-
+const qs = require('qs'); // Import qs module to stringify data for x-www-form-urlencoded format
 const app = express();
 
 app.use(express.json());
@@ -29,27 +29,49 @@ app.use(questRoutes);
 app.use(twitterAuthentication);
 
 app.get("/twitter-success/:code", async (req, res) => {
-
-  
   try {
-    
     const { code } = req.params;
     const grantType = "authorization_code";
     const clientId = "V1FrUFdVZ3picVFSUGtHWExpR1I6MTpjaQ"; // Replace with your client ID
     const redirectUri = "http://localhost:5173/twitter-success"; // Replace with your redirect URI
     const codeVerifier = "challenge"; // Replace with your code verifier (should be the same as used during authorization)
-    const response = await axios.post('https://api.twitter.com/2/oauth2/token', null, {
-      params: {
-        grant_type: grantType,
-        client_id: clientId,
-        redirect_uri: redirectUri,
-        code_verifier: codeVerifier,
-        code: code,
-      },
-      headers: {
-        'Content-Type': 'application/x-www-form-urlencoded',
-      },
-    });
+
+    // Prepare data for the request body
+    const requestBody = {
+      grant_type: grantType,
+      client_id: clientId,
+      redirect_uri: redirectUri,
+      code_verifier: codeVerifier,
+      code: code,
+    };
+
+    // Make the token request
+    const response = await axios.post(
+      "https://api.twitter.com/2/oauth2/token",
+      qs.stringify(requestBody),
+      {
+        headers: {
+          "Content-Type": "application/x-www-form-urlencoded",
+        },
+      }
+    );
+    console.log(response);
+    // const response = await axios.post(
+    //   "https://api.twitter.com/2/oauth2/token",
+    //   null,
+    //   {
+    //     params: {
+    //       grant_type: grantType,
+    //       client_id: clientId,
+    //       redirect_uri: redirectUri,
+    //       code_verifier: codeVerifier,
+    //       code: code,
+    //     },
+    //     headers: {
+    //       "Content-Type": "application/x-www-form-urlencoded",
+    //     },
+    //   }
+    // );
 
     console.log(response);
     // Exchange authorization code for an access token
@@ -90,7 +112,7 @@ app.get("/twitter-success/:code", async (req, res) => {
 
     // // Redirect the user to a success page
     // res.status(200).json({ token: accessToken, userResponse });
-    }catch (error) {
+  } catch (error) {
     console.error("Error exchanging authorization code:", error);
     res.status(500).send("Error exchanging authorization code");
   }
