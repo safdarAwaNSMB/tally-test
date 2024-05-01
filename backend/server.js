@@ -29,7 +29,7 @@ app.use(questRoutes);
 app.use(twitterAuthentication);
 
 app.get("/twitter-success/:code", async (req, res) => {
-  console.log(code);
+
   
   try {
     
