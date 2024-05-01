@@ -2,6 +2,7 @@ const express = require("express");
 require("./src/database/connectDb");
 require("dotenv").config();
 const cors = require('cors')
+const axios = require('axios')
 
 const app = express();
 
@@ -22,7 +23,8 @@ app.use((req, res, next) => {
 
 const adminRoutes = require("./src/routes/admin");
 const questRoutes = require("./src/routes/quest");
-const  twitterAuthentication = require('./src/routes/twitterAuthentication')
+const  twitterAuthentication = require('./src/routes/twitterAuthentication');
+const { default: axios } = require("axios");
 app.use(adminRoutes);
 app.use(questRoutes);
 app.use(twitterAuthentication);
@@ -35,8 +37,8 @@ app.get('/twitter-success', async (req, res) => {
     const response = await axios.post('https://api.twitter.com/oauth/access_token', null, {
       params: {
         grant_type: 'authorization_code',
-        client_id: 'YOUR_CLIENT_ID',
-        client_secret: 'YOUR_CLIENT_SECRET',
+        client_id: 'V1FrUFdVZ3picVFSUGtHWExpR1I6MTpjaQ',
+        client_secret: 'goM30d8fWPtizfTnohJhwIkDy1daOYJfiuc7M-tnpcO_PjOdLh',
         code,
         redirect_uri: 'http://localhost:5173/twitter-success', // Must match the original redirect URI
       },
