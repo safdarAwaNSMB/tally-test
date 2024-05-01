@@ -1,0 +1,20 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+.gradient-bg {
+  background: linear-gradient(30deg, rgba(21, 15, 137, 1) 10%, rgba(90, 31, 191, 1) 67%);
+}
+.v-toast__item .v-toast__text{
+  padding: 1rem !important;
+}
+.v-toast__text{
+  font-size: 25px !important;
+}
+.custom-bg {
+  background-color: rgba(0, 0, 0, 0.226);
+}
+.popUpBox {
+  height: 200vh;
+}
