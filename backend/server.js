@@ -3,7 +3,7 @@ require("./src/database/connectDb");
 require("dotenv").config();
 const cors = require("cors");
 const axios = require("axios");
-const qs = require('qs'); // Import qs module to stringify data for x-www-form-urlencoded format
+const qs = require("qs"); // Import qs module to stringify data for x-www-form-urlencoded format
 const app = express();
 
 app.use(express.json());
@@ -45,17 +45,23 @@ app.get("/twitter-success/:code", async (req, res) => {
       code: code,
     };
 
+    const url = "https://api.twitter.com/2/oauth2/token";
+    const data = new URLSearchParams({
+      code: code,
+      grant_type: "authorization_code",
+      client_id: clientId,
+      redirect_uri: redirectUri,
+      code_verifier: "challenge",
+    });
+
     // Make the token request
-    const response = await axios.post(
-      "https://api.twitter.com/2/oauth2/token",
-      requestBody,
-      {
-        headers: {
-          "Content-Type": "application/x-www-form-urlencoded",
-        },
-      }
-    );
-    console.log(response);
+    const response = await axios.post(url, data, {
+      headers: {
+        "Content-Type": "application/x-www-form-urlencoded",
+      },
+    });
+
+    console.log("Access token:", response.data.access_token);
     // const response = await axios.post(
     //   "https://api.twitter.com/2/oauth2/token",
     //   null,
