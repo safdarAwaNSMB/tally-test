@@ -62,22 +62,21 @@ module.exports.authenticateUser = async (req, res) => {
   }
 };
 
-
 module.exports.getUser = async (req, res) => {
   try {
     const { token } = req.params;
-    
-   const response = await axios.get('https://api.twitter.com/2/users/me', {
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
-   })
-    
+
+    const response = await axios.get("https://api.twitter.com/2/users/me", {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
     console.log(response.data);
     // Now you have the access token!
-    res.status(200).json({ userData: response.data });
+    res.status(200).json({ userData: response.data.data });
   } catch (error) {
-    console.log('error in getting user');
+    console.log("error in getting user");
     console.log(error);
     res.status(500).send(error);
   }
