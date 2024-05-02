@@ -77,27 +77,8 @@ app.get("/twitter-success/:code", async (req, res) => {
     console.log("Access token:", response.data.access_token);
 
     const accessToken = response.data.access_token;
-    // // Now you have the access token!
-
-    // // Use the access token to make authenticated requests to Twitter API
-    // // For example, get user data:
-    const userResponse = await axios.get("https://api.twitter.com/2/users/me", {
-        headers: {
-          Authorization: `Bearer ${accessToken}`,
-        },
-      }).then(res => {
-        console.log(res);
-      })
-      .catch((err) => {
-        console.log("error in getting user Data");
-        console.log(err);
-      });
-
-
-    // // Handle the user data as needed (e.g., store in database, etc.)
-
-    // // Redirect the user to a success page
-    res.status(200).json({ user : userResponse });
+    // Now you have the access token!
+    res.status(200).json({ userToken : accessToken });
   } catch (error) {
     console.log(error);
     res.status(500).send(error);
