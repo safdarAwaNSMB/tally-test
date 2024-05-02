@@ -43,7 +43,7 @@ onMounted(async () => {
   }
 });
 const checkLogin = (relativeLink) => {
-  if (userState.user && !userState?.user?.admin) {
+  if (userState?.user?.userData && !userState?.user?.admin) {
     window.open(relativeLink, "_blank");
   } else {
     openTwitterLogin.value = true;
@@ -88,7 +88,9 @@ const checkFollow = async () => {
 };
 const checkLike = async () => {
   try {
-    const likeRes = await axios.get(`https://tally-test.onrender.comget-like-result/${userToken}?userId=${userState.user.id}&tweetId=${getTweetIdFromUrl(questData?.likeLink)}`).then(res => console.log(res)).catch(err => console.log(err))
+    console.log(userState?.user?.userData?.id);
+    console.log('checking like');
+    const likeRes = await axios.get(`https://tally-test.onrender.comget-like-result/${userToken}?userId=${userState?.user?.userData?.id}&tweetId=${getTweetIdFromUrl(questData?.value?.likeLink)}`).then(res => console.log(res)).catch(err => console.log(err))
     console.log(likeRes);
   } catch (error) {
     console.log(error);
