@@ -81,3 +81,26 @@ module.exports.getUser = async (req, res) => {
     res.status(500).send(error);
   }
 };
+
+
+module.exports.checkLike = async (req, res) => {
+  try {
+    const { userId, tweetId } = req.query;
+
+    const userLiked = await axios.get(`https://api.twitter.com/2/users/${userId}/liked_tweets`, {
+      headers: {
+        Authorization: `Bearer ${req.params.token}`,
+      },
+    });
+
+    const isLiked = userLiked.data.data.some(like => like.id == tweetId)
+
+    console.log(isLiked);
+    // Now you have the access token!
+    res.status(200).json({ result: isLiked });
+  } catch (error) {
+    console.log("error in getting user");
+    console.log(error);
+    res.status(500).send(error);
+  }
+};
