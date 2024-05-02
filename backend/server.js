@@ -34,27 +34,33 @@ app.get("/twitter-success/:code", async (req, res) => {
     const grantType = "authorization_code";
     const clientId = "V1FrUFdVZ3picVFSUGtHWExpR1I6MTpjaQ"; // Replace with your client ID
     const redirectUri = "http://localhost:5173/twitter-success"; // Replace with your redirect URI
-    const codeVerifier = "challenge"; // Replace with your code verifier (should be the same as used during authorization)
+    const codeVerifier = "abc123ABC"; // Replace with your code verifier (should be the same as used during authorization)
 
- 
+    // Prepare data for the request body
+    const requestBody = {
+      grant_type: grantType,
+      client_id: clientId,
+      redirect_uri: redirectUri,
+      code_verifier: codeVerifier,
+      code: code,
+    };
 
     // Make the token request
-   const response = await axios.post("https://api.twitter.com/oauth/access_token", null, {
-      params: {
-        code: code,
-        grant_type: "authorization_code",
-        redirect_uri: redirectUri,
-      },
-    })
-    .then((response) => {
-      console.log(response);
-      
-    })
-    .catch((error) => {
-      console.log(error);
-    });
+    const response = await axios.post(
+      "https://api.twitter.com/2/oauth2/token",
+      qs.stringify(requestBody),
+      {
+        headers: {
+          "Content-Type": "application/x-www-form-urlencoded",
+          Authorization:
+            "Basic " + Buffer.from(clientId + ":" + "").toString("base64"), // Include empty secret
+        },
+      }
+    );
 
-    
+    console.log(response.data); // Assuming response contains token data
+
+    console.log("Access token:", response.data.access_token);
     // const response = await axios.post(
     //   "https://api.twitter.com/2/oauth2/token",
     //   null,
