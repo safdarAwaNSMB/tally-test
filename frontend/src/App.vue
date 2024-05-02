@@ -30,7 +30,7 @@ onMounted(async () => {
       console.log(res);
     }).catch(err => console.log(err))
   }
-})
+});
 </script>
 
 <template>

@@ -20,7 +20,7 @@ module.exports.authenticateUser = async (req, res) => {
   try {
     const { code } = req.params;
     const grantType = "authorization_code";
-    const clientId = "V1FrUFdVZ3picVFSUGtHWExpR1I6MTpjaQ"; // Replace with your client ID
+    const clientId = "enZoZHJ3cDlxbWtfYXRlTXJYS0M6MTpjaQ"; // Replace with your client ID
     const redirectUri = "http://localhost:5173/twitter-success"; // Replace with your redirect URI
     const codeVerifier = "abc123ABC"; // Replace with your code verifier (should be the same as used during authorization)
 
@@ -45,7 +45,7 @@ module.exports.authenticateUser = async (req, res) => {
             Buffer.from(
               clientId +
                 ":" +
-                "DkG8SGDSAtqf9iPJ7k3SBvg2ebMCnSiWZ7jNcyR7zkRt-5OmgT"
+                "Dtbgspd-WWfAIJC-Kzvme1q7ToHSk28Tx_bs54a_xCiv_B6ONx"
             ).toString("base64"), // Include empty secret
         },
       }

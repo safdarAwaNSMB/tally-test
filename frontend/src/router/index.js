@@ -36,7 +36,7 @@ const router = createRouter({
     },
     {
       path: "/twitter-success",
-      name: "adminManage",
+      name: "twitterSuccess",
       component: TwitterSuccess,
     },
   ],

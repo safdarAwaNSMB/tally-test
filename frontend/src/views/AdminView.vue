@@ -10,10 +10,9 @@ const userState = userStore()
 const router = useRouter()
 onMounted(() => {
     if (!userState.user?.admin || userState.user === null) {
-        router.push({ name: 'home' })
+        router.push('/')
     }
-})
-console.log("");
+});
 </script>
 
 

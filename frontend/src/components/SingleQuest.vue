@@ -7,6 +7,8 @@ import arrowRotate from "../assets/arrow-rotate-right-solid.svg"
 import { useRoute, useRouter } from 'vue-router'
 import { onMounted, ref } from "vue";
 import axios from "axios";
+import { userStore } from "../stores/user";
+import Cookies from 'js-cookie'
 
 const openTwitterLogin = ref(false);
 const questData = ref(null);
@@ -15,6 +17,8 @@ console.log(route.params);
 console.log(route.query);
 const router = useRouter()
 const backendUrl = import.meta.env.VITE_APP_BACKEND_URL;
+const userState = userStore();
+const userToken = Cookies.get('userToken');
 onMounted(async () => {
     await axios.get(`${backendUrl}/get-quest/${route.params.questId}`).then(res => {
         console.log(res);
@@ -22,9 +26,19 @@ onMounted(async () => {
     }).catch(err => {
         console.log(err);
     })
+    if(userToken){
+    await axios.get(`https://tally-test.onrender.com/get-twitter-user/${userToken}`).then(res => {
+            console.log(res.data);
+           userState.updateUser(res.data);
+        }).catch(err => console.log(err))
+  }
 })
-const checkLogin = () => {
-    openTwitterLogin.value = true
+const checkLogin = (relativeLink) => {
+    if(userState.user && !userState?.user?.admin){
+        window.open(relativeLink, '_blank')
+    } else {
+        openTwitterLogin.value = true
+    }
 }
 const generateRandomString = () => {
     const charset =
@@ -44,11 +58,11 @@ async function connectTwitter() {
     try {
         const csrfState = Math.random().toString(36).substring(2);
 
-        let url = `https://twitter.com/i/oauth2/authorize?response_type=code&client_id=V1FrUFdVZ3picVFSUGtHWExpR1I6MTpjaQ&redirect_uri=http://localhost:5173/twitter-success&scope=tweet.read users.read offline.access&state=${state}&code_challenge=abc123ABC&code_challenge_method=plain`;
+        let url = `https://twitter.com/i/oauth2/authorize?response_type=code&client_id=enZoZHJ3cDlxbWtfYXRlTXJYS0M6MTpjaQ&redirect_uri=http://localhost:5173/twitter-success&scope=tweet.read users.read follows.read like.read offline.access&state=${state}&code_challenge=abc123ABC&code_challenge_method=plain`;
         url += "&state=" + csrfState;
         window.open(url, '_blank');
     } catch (error) {
-
+        console.log(error);
     }
 }
 
@@ -76,7 +90,7 @@ console.log(route.params);
                 <p class="text-slate-400">{{ questData?.description }}</p>
             </div>
         </div>
-        <div @click="checkLogin"
+        <div @click="()=>checkLogin(questData?.followLink)"
             class="flex text-white my-2 flex-row w-full bg-gradient-to-r from-sky-600 from-50% to-teal-400 justify-between rounded-lg py-4 px-2 pe-6">
             <div class="flex flex-row items-center">
                 <img class="w-18 h-12" :src="twitterLogo" />
@@ -87,7 +101,7 @@ console.log(route.params);
             </div>
             <img class=" w-10 me-3 text-white" :src="tickSvg" />
         </div>
-        <div @click="checkLogin"
+        <div @click="()=>checkLogin(questData?.likeLink)"
             class="flex text-white my-2 flex-row w-full items-center bg-violet-600 justify-between rounded-lg py-4 px-2 pe-6">
             <div class="flex flex-row items-center">
                 <img class="w-18 h-12" :src="twitterLogo" />
@@ -98,7 +112,7 @@ console.log(route.params);
             </div>
             <img class=" w-10 me-3" :src="arrowRotate" />
         </div>
-        <div @click="checkLogin"
+        <div @click="()=>checkLogin(questData?.retweetLink)"
             class="flex text-white my-2 flex-row w-full items-center bg-violet-600 justify-between rounded-lg py-4 px-2 pe-6">
             <div class="flex flex-row items-center">
                 <img class="w-18 h-12" :src="twitterLogo" />

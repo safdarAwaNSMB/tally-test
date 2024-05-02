@@ -16,8 +16,7 @@ onMounted(async () => {
     }).finally(() => {
         loading.value = false
     })
-})
-console.log();
+});
 </script>
 
 <template>

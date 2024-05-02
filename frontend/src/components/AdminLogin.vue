@@ -24,6 +24,7 @@ const handleSubmit = async (event) => {
                 console.log(res);
                 formData.value = {}
                 Cookies.set('adminToken', res.data.token);
+                Cookies.remove('userToken')
                 userState.updateUser(res.data.user);
                 toast.open({
                     message: "Logged in as Admin!",
