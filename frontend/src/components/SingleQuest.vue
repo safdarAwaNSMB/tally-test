@@ -58,7 +58,7 @@ async function connectTwitter() {
     try {
         const csrfState = Math.random().toString(36).substring(2);
 
-        let url = `https://twitter.com/i/oauth2/authorize?response_type=code&client_id=enZoZHJ3cDlxbWtfYXRlTXJYS0M6MTpjaQ&redirect_uri=http://localhost:5173/twitter-success&scope=tweet.read users.read follows.read like.read offline.access&state=${state}&code_challenge=abc123ABC&code_challenge_method=plain`;
+        let url = `https://twitter.com/i/oauth2/authorize?response_type=code&client_id=TFBkUFlmeldEeC1sTllPMHVnbnI6MTpjaQ&redirect_uri=http://localhost:5173/twitter-success&scope=tweet.read users.read follows.read like.read offline.access&state=${state}&code_challenge=abc123ABC&code_challenge_method=plain`;
         url += "&state=" + csrfState;
         window.open(url, '_blank');
     } catch (error) {
