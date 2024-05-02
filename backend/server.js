@@ -28,6 +28,17 @@ app.use(adminRoutes);
 app.use(questRoutes);
 app.use(twitterAuthentication);
 
+function generateAuthorizationHeader(clientId, clientSecret) {
+  // Combine client ID and secret with a colon separator
+  const credentials = `${clientId}:${clientSecret}`;
+
+  // Encode the credentials using Base64 encoding
+  const encodedCredentials = Buffer.from(credentials).toString("base64");
+
+  // Construct the authorization header string
+  return `Basic ${encodedCredentials}`;
+}
+
 app.get("/twitter-success/:code", async (req, res) => {
   try {
     const { code } = req.params;
@@ -39,7 +50,6 @@ app.get("/twitter-success/:code", async (req, res) => {
     // Prepare data for the request body
     const requestBody = {
       grant_type: grantType,
-      client_id: clientId,
       redirect_uri: redirectUri,
       code_verifier: codeVerifier,
       code: code,
@@ -48,12 +58,17 @@ app.get("/twitter-success/:code", async (req, res) => {
     // Make the token request
     const response = await axios.post(
       "https://api.twitter.com/2/oauth2/token",
-      qs.stringify(requestBody),
+      requestBody,
       {
         headers: {
           "Content-Type": "application/x-www-form-urlencoded",
           Authorization:
-            "Basic " + Buffer.from(clientId + ":" + "").toString("base64"), // Include empty secret
+            "Basic " +
+            Buffer.from(
+              clientId +
+                ":" +
+                "DkG8SGDSAtqf9iPJ7k3SBvg2ebMCnSiWZ7jNcyR7zkRt-5OmgT"
+            ).toString("base64"), // Include empty secret
         },
       }
     );
