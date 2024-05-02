@@ -140,10 +140,10 @@ console.log(route.params);
       <img @click="checkFollow" class="w-10 me-3 text-white" :src="tickSvg" />
     </div>
     <div
-      @click="() => checkLogin(questData?.likeLink)"
+      
       class="flex text-white my-2 flex-row w-full items-center bg-violet-600 justify-between rounded-lg py-4 px-2 pe-6"
     >
-      <div class="flex flex-row items-center">
+      <div @click="() => checkLogin(questData?.likeLink)" class="flex flex-row items-center">
         <img class="w-18 h-12" :src="twitterLogo" />
         <div>
           <h1 class="text-2xl mb-2 font-bold">LIKE THIS TWEET</h1>
@@ -152,13 +152,13 @@ console.log(route.params);
           }}</a>
         </div>
       </div>
-      <img class="w-10 me-3" :src="arrowRotate" />
+      <img @click="checkLike" class="w-10 me-3" :src="arrowRotate" />
     </div>
     <div
-      @click="() => checkLogin(questData?.retweetLink)"
+      
       class="flex text-white my-2 flex-row w-full items-center bg-violet-600 justify-between rounded-lg py-4 px-2 pe-6"
     >
-      <div class="flex flex-row items-center">
+      <div @click="() => checkLogin(questData?.retweetLink)" class="flex flex-row items-center">
         <img class="w-18 h-12" :src="twitterLogo" />
         <div>
           <h1 class="text-2xl mb-2 font-bold">REPOST THIS TWEET</h1>

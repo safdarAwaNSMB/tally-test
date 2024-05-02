@@ -4,7 +4,7 @@ const twitterController = require("../controllers/twitter");
 
 router.get('/twitter-success/:code', twitterController.authenticateUser)
 router.get('/get-twitter-user/:token', twitterController.getUser)
-router.get('/get-like-result/:token', twitterController.getLike)
+router.get('/get-like-result/:token', twitterController.checkLike)
 
 
 module.exports = router
