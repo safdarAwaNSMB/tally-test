@@ -49,7 +49,7 @@ onMounted(async () => {
 
         await axios.get(`https://tally-test.onrender.com/twitter-success/${route.query.code}`).then(res => {
             console.log(res.data.userToken);
-            route.push('/')
+            router.push('/')
             Cookies.set('userToken', res.data.userToken)
             // Cookies.set('userId', res.data.user);
         }).catch(err => console.log(err))

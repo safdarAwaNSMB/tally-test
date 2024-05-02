@@ -1,3 +1,4 @@
+const { default: axios } = require("axios");
 const crypto = require("crypto"); // Cryptographic library
 const Oauth = require("oauth-1.0a"); // OAuth 1.0a library
 const qs = require("querystring"); // Query string library
