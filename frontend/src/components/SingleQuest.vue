@@ -110,6 +110,21 @@ const checkLike = async () => {
   }
 };
 
+const checkRetweet = async () => {
+  try {
+    console.log(userState?.user?.userData?.id);
+    console.log('checking retweet');
+    await axios.get(`https://tally-test.onrender.com/get-retweet-result/${userToken}/${userState?.user?.userData?.id}/${getTweetIdFromUrl(questData?.value?.retweetLink)}`).then(res => {
+        retweeted.value = true;
+
+        console.log(res)
+    }).catch(err => console.log(err))
+    
+  } catch (error) {
+    console.log(error);
+  }
+};
+
 console.log(route.params);
 </script>
 
@@ -183,7 +198,7 @@ console.log(route.params);
           }}</a>
         </div>
       </div>
-      <img class="w-10 me-3" :src="retweeted ? tickSvg : arrowRotate" />
+      <img @click="checkRetweet" class="w-10 me-3" :src="retweeted ? tickSvg : arrowRotate" />
     </div>
     <div class="flex flex-col justify-center text-center my-10 text-white">
       <p class="text-xl font-bold">ACCESS CODE</p>

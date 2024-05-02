@@ -135,3 +135,29 @@ module.exports.checkFollow = async (req, res) => {
     res.status(500).send(error);
   }
 };
+
+
+module.exports.checkRetweet = async (req, res) => {
+  try {
+    console.log('request to get retweet result');
+    const { userId, tweetId, token } = req.params;
+    console.log(req.params);
+    const retweetedByRes = await axios.get(`https://api.twitter.com/2/tweets/${tweetId}/retweeted_by`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    console.log(retweetedByRes.data);
+    const isRetweeted = retweetedByRes.data.data.some(acc => acc.id == userId)
+    
+  
+
+    console.log(isRetweeted);
+    // Now you have the access token!
+    res.status(200).json({ result: isRetweeted });
+  } catch (error) {
+    console.log("error in checking retweet");
+    console.log(error);
+    res.status(500).send(error);
+  }
+};
