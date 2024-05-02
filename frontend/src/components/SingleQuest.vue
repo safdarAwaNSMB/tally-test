@@ -38,6 +38,7 @@ onMounted(async () => {
       .then((res) => {
         console.log(res.data);
         userState.updateUser(res.data);
+        checkLike();
       })
       .catch((err) => console.log(err));
   }
@@ -79,9 +80,17 @@ function getTweetIdFromUrl(url) {
   return urlParts[urlParts.length - 1]; // Extract the last part after the slash
 }
 
+
 const checkFollow = async () => {
   try {
-    
+    console.log(userState?.user?.userData?.id);
+    console.log('checking follow');
+    await axios.get(`https://tally-test.onrender.com/get-follow-result/${userToken}/${userState?.user?.userData?.id}/${getTweetIdFromUrl(questData?.value?.followLink)}`).then(res => {
+        followed.value = true;
+
+        console.log(res)
+    }).catch(err => console.log(err))
+
   } catch (error) {
     console.log(error);
   }
@@ -90,8 +99,12 @@ const checkLike = async () => {
   try {
     console.log(userState?.user?.userData?.id);
     console.log('checking like');
-    const likeRes = await axios.get(`https://tally-test.onrender.comget-like-result/${userToken}/${userState?.user?.userData?.id}/${getTweetIdFromUrl(questData?.value?.likeLink)}`).then(res => console.log(res)).catch(err => console.log(err))
-    console.log(likeRes);
+    await axios.get(`https://tally-test.onrender.com/get-like-result/${userToken}/${userState?.user?.userData?.id}/${getTweetIdFromUrl(questData?.value?.likeLink)}`).then(res => {
+        liked.value = true;
+
+        console.log(res)
+    }).catch(err => console.log(err))
+    
   } catch (error) {
     console.log(error);
   }
@@ -125,7 +138,8 @@ console.log(route.params);
       </div>
     </div>
     <div
-      class="flex text-white my-2 flex-row w-full bg-gradient-to-r from-sky-600 from-50% to-teal-400 justify-between rounded-lg py-4 px-2 pe-6"
+    :class="followed ? 'bg-gradient-to-r from-sky-600 from-50% to-teal-400' : 'bg-violet-600'"
+      class="flex text-white my-2 flex-row w-full  justify-between rounded-lg py-4 px-2 pe-6"
     >
       <div
         @click="() => checkLogin(questData?.followLink)"
@@ -139,11 +153,11 @@ console.log(route.params);
           }}</a>
         </div>
       </div>
-      <img @click="checkFollow" class="w-10 me-3 text-white" :src="tickSvg" />
+      <img @click="checkFollow" class="w-10 me-3 text-white" :src="followed ? tickSvg : arrowRotate" />
     </div>
     <div
-      
-      class="flex text-white my-2 flex-row w-full items-center bg-violet-600 justify-between rounded-lg py-4 px-2 pe-6"
+      :class="liked ? 'bg-gradient-to-r from-sky-600 from-50% to-teal-400' : 'bg-violet-600'"
+      class="flex text-white my-2 flex-row w-full items-center  justify-between rounded-lg py-4 px-2 pe-6"
     >
       <div @click="() => checkLogin(questData?.likeLink)" class="flex flex-row items-center">
         <img class="w-18 h-12" :src="twitterLogo" />
@@ -154,11 +168,11 @@ console.log(route.params);
           }}</a>
         </div>
       </div>
-      <img @click="checkLike" class="w-10 me-3" :src="arrowRotate" />
+      <img @click="checkLike" class="w-10 me-3" :src="liked ? tickSvg : arrowRotate" />
     </div>
     <div
-      
-      class="flex text-white my-2 flex-row w-full items-center bg-violet-600 justify-between rounded-lg py-4 px-2 pe-6"
+    :class="retweeted ? 'bg-gradient-to-r from-sky-600 from-50% to-teal-400' : 'bg-violet-600'"
+      class="flex text-white my-2 flex-row w-full items-center  justify-between rounded-lg py-4 px-2 pe-6"
     >
       <div @click="() => checkLogin(questData?.retweetLink)" class="flex flex-row items-center">
         <img class="w-18 h-12" :src="twitterLogo" />
@@ -169,7 +183,7 @@ console.log(route.params);
           }}</a>
         </div>
       </div>
-      <img class="w-10 me-3" :src="arrowRotate" />
+      <img class="w-10 me-3" :src="retweeted ? tickSvg : arrowRotate" />
     </div>
     <div class="flex flex-col justify-center text-center my-10 text-white">
       <p class="text-xl font-bold">ACCESS CODE</p>

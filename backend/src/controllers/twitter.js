@@ -101,7 +101,36 @@ module.exports.checkLike = async (req, res) => {
     // Now you have the access token!
     res.status(200).json({ result: isLiked });
   } catch (error) {
-    console.log("error in getting user");
+    console.log("error in checking like");
+    console.log(error);
+    res.status(500).send(error);
+  }
+};
+
+module.exports.checkFollow = async (req, res) => {
+  try {
+    console.log('request to get follow result');
+    const { userId, userName, token } = req.params;
+    console.log(req.params);
+    const userFollowings = await axios.get(`https://api.twitter.com/2/users/${userId}/following`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    console.log(userFollowings.data);
+    const followAccount = await axios.get(`https://api.twitter.com/2/users/by/username/${userName}`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    console.log(followAccount.data);
+    const isFollowed = userFollowings.data.data.some(acc => acc.id == followAccount.data.data.id)
+
+    console.log(isFollowed);
+    // Now you have the access token!
+    res.status(200).json({ result: isFollowed });
+  } catch (error) {
+    console.log("error in checking follow");
     console.log(error);
     res.status(500).send(error);
   }
