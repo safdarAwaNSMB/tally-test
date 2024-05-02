@@ -93,6 +93,7 @@ module.exports.checkLike = async (req, res) => {
         Authorization: `Bearer ${token}`,
       },
     });
+    console.log(userLiked.data);
 
     const isLiked = userLiked.data.data.some(like => like.id == tweetId)
 
