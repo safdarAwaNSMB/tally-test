@@ -86,11 +86,11 @@ module.exports.getUser = async (req, res) => {
 module.exports.checkLike = async (req, res) => {
   try {
     console.log('request to get like result');
-    const { userId, tweetId } = req.query;
-    console.log(req.query);
+    const { userId, tweetId, token } = req.params;
+    console.log(req.params);
     const userLiked = await axios.get(`https://api.twitter.com/2/users/${userId}/liked_tweets`, {
       headers: {
-        Authorization: `Bearer ${req.params.token}`,
+        Authorization: `Bearer ${token}`,
       },
     });
 

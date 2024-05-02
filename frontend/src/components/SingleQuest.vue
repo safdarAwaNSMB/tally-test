@@ -90,7 +90,7 @@ const checkLike = async () => {
   try {
     console.log(userState?.user?.userData?.id);
     console.log('checking like');
-    const likeRes = await axios.get(`https://tally-test.onrender.comget-like-result/${userToken}?userId=${userState?.user?.userData?.id}&tweetId=${getTweetIdFromUrl(questData?.value?.likeLink)}`).then(res => console.log(res)).catch(err => console.log(err))
+    const likeRes = await axios.get(`https://tally-test.onrender.comget-like-result/${userToken}/${userState?.user?.userData?.id}/${getTweetIdFromUrl(questData?.value?.likeLink)}`).then(res => console.log(res)).catch(err => console.log(err))
     console.log(likeRes);
   } catch (error) {
     console.log(error);
