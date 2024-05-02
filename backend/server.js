@@ -81,26 +81,26 @@ app.get("/twitter-success/:code", async (req, res) => {
 
     // // Use the access token to make authenticated requests to Twitter API
     // // For example, get user data:
-    const userResponse = await axios
-      .get("https://api.twitter.com/2/users/me", {
+    const userResponse = await axios.get("https://api.twitter.com/2/users/me", {
         headers: {
           Authorization: `Bearer ${accessToken}`,
         },
+      }).then(res => {
+        console.log(res);
       })
       .catch((err) => {
         console.log("error in getting user Data");
         console.log(err);
       });
 
-    // // Now you have the user data!
-    console.log(userResponse);
+
     // // Handle the user data as needed (e.g., store in database, etc.)
 
     // // Redirect the user to a success page
     res.status(200).json({ user : userResponse });
   } catch (error) {
-    console.error("Error exchanging authorization code:", error);
-    res.status(500).send("Error exchanging authorization code");
+    console.log(error);
+    res.status(500).send(error);
   }
 });
 
