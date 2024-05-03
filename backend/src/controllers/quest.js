@@ -1,4 +1,7 @@
 const Quest = require('../models/quest');
+const path = require('path')
+const mimeTypes = require('mime-types');
+const fs = require('fs')
 
 module.exports.createQuest = async (req, res) => {
   try {  
@@ -70,6 +73,21 @@ module.exports.getQuest = async (req, res) => {
     res.status(200).send({ status: true, message: "The Following is the Quest!", data: quest });
   } catch (error) {
     res.status(400).send({ status: false, message: error.message });
+  }
+}
+
+module.exports.previewFile = async (req, res) => {
+  try {
+    const filePath = path.join(__dirname, '../uploads/', req.params.filePath);
+    console.log(filePath);
+    res.set({
+      'Content-Type': mimeTypes.contentType(filePath)
+    });
+    const readStream = fs.createReadStream(filePath);
+    readStream.pipe(res);
+  } catch (error) {
+    console.log(error);
+    return res.status(404).json({ error: 'File not found on the server' });
   }
 }
 

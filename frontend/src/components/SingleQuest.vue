@@ -22,6 +22,9 @@ const userToken = Cookies.get("userToken");
 const liked = ref(false);
 const followed = ref(false);
 const retweeted = ref(false);
+const liking = ref(false);
+const following = ref(false);
+const retweeting = ref(false);
 onMounted(async () => {
   await axios
     .get(`${backendUrl}/get-quest/${route.params.questId}`)
@@ -39,6 +42,7 @@ onMounted(async () => {
         console.log(res.data);
         userState.updateUser(res.data);
         checkLike();
+        checkRetweet();
       })
       .catch((err) => console.log(err));
   }
@@ -85,11 +89,16 @@ const checkFollow = async () => {
   try {
     console.log(userState?.user?.userData?.id);
     console.log('checking follow');
-    await axios.get(`https://tally-test.onrender.com/get-follow-result/${userToken}/${userState?.user?.userData?.id}/${getTweetIdFromUrl(questData?.value?.followLink)}`).then(res => {
-        followed.value = true;
-
-        console.log(res)
-    }).catch(err => console.log(err))
+    if(userToken){
+        following.value = true
+        await axios.get(`https://tally-test.onrender.com/get-follow-result/${userToken}/${userState?.user?.userData?.id}/${getTweetIdFromUrl(questData?.value?.followLink)}`).then(res => {
+            followed.value = res.data.result;
+            
+            console.log(res)
+        }).catch(err => console.log(err)).finally(()=> following.value = false)
+    } else {
+        connectTwitter()
+    }
 
   } catch (error) {
     console.log(error);
@@ -99,11 +108,17 @@ const checkLike = async () => {
   try {
     console.log(userState?.user?.userData?.id);
     console.log('checking like');
-    await axios.get(`https://tally-test.onrender.com/get-like-result/${userToken}/${userState?.user?.userData?.id}/${getTweetIdFromUrl(questData?.value?.likeLink)}`).then(res => {
-        liked.value = true;
+    if(userToken){
 
-        console.log(res)
-    }).catch(err => console.log(err))
+        liking.value = true
+        await axios.get(`https://tally-test.onrender.com/get-like-result/${userToken}/${userState?.user?.userData?.id}/${getTweetIdFromUrl(questData?.value?.likeLink)}`).then(res => {
+            liked.value = res.data.result;
+            
+            console.log(res)
+        }).catch(err => console.log(err)).finally(()=> liking.value = false)
+    } else {
+        connectTwitter();
+    }
     
   } catch (error) {
     console.log(error);
@@ -114,12 +129,18 @@ const checkRetweet = async () => {
   try {
     console.log(userState?.user?.userData?.id);
     console.log('checking retweet');
-    await axios.get(`https://tally-test.onrender.com/get-retweet-result/${userToken}/${userState?.user?.userData?.id}/${getTweetIdFromUrl(questData?.value?.retweetLink)}`).then(res => {
-        retweeted.value = true;
+    if(userToken){
 
-        console.log(res)
-    }).catch(err => console.log(err))
-    
+        retweeting.value = true
+        await axios.get(`https://tally-test.onrender.com/get-retweet-result/${userToken}/${userState?.user?.userData?.id}/${getTweetIdFromUrl(questData?.value?.retweetLink)}`).then(res => {
+            retweeted.value = res.data.result;
+            
+            console.log(res)
+        }).catch(err => console.log(err)).finally(()=> retweeting.value = false)
+    } else {
+        connectTwitter()
+    }
+        
   } catch (error) {
     console.log(error);
   }
@@ -134,22 +155,22 @@ console.log(route.params);
       class="flex my-5 flex-row w-full justify-between gap-5 flex-wrap lg:flex-nowrap py-4"
     >
       <div
-        class="my-4 rounded-lg px-4 py-8 w-full lg:w-1/2 shadow-2xl shadow-gray-800 bg-gradient-to-r from-red-500 from-20% to-violet-800 to-70% flex justify-between flex-row"
+        class="my-4 p-5 rounded-lg px-4 py-8 w-full lg:w-1/2 shadow-2xl shadow-gray-800 bg-gradient-to-r from-red-500 from-20% to-violet-800 to-70% flex justify-between flex-row"
       >
-        <div>
-          <img :src="questLogo" />
+        <div class="w-1/2">
+          <img class=" w-28 h-28 rounded-full " :src="backendUrl + '/' + questData?.questImage" />
         </div>
-        <div class="text-center text-white">
-          <p class="text-md font-bold">{{ questData?.questName }}</p>
+        <div class="text-center text-white w-1/2">
+          <p class="text-xl font-bold text-center w-full">{{ questData?.questName }}</p>
           <!-- <h2 class="text-3xl font-bold mb-3">{{questData.header}}</h2> -->
           <hr class="border-black" />
         </div>
       </div>
       <div class="my-4 px-5 py-8 w-full lg:w-1/2 text-white">
-        <p class="text-3xl font-bold">
+        <p class="text-3xl font-bold text-center">
           {{ questData?.header }}
         </p>
-        <p class="text-slate-400">{{ questData?.description }}</p>
+        <p class="text-slate-400 text-center">{{ questData?.description }}</p>
       </div>
     </div>
     <div
@@ -168,7 +189,14 @@ console.log(route.params);
           }}</a>
         </div>
       </div>
-      <img @click="checkFollow" class="w-10 me-3 text-white" :src="followed ? tickSvg : arrowRotate" />
+      <div v-if="following" class="inline-block me-4 mt-3 h-8 w-8 animate-spin rounded-full border-4 border-solid border-current border-e-transparent align-[-0.125em] text-white motion-reduce:animate-[spin_1.5s_linear_infinite]"
+  role="status">
+  <span
+    class="!absolute !-m-px !h-px !w-px !overflow-hidden !whitespace-nowrap !border-0 !p-0 ![clip:rect(0,0,0,0)]"
+    >Loading...</span
+  >
+</div>
+      <img v-else-if="!following" @click="checkFollow" class="w-10 me-3 text-white" :src="followed ? tickSvg : arrowRotate" />
     </div>
     <div
       :class="liked ? 'bg-gradient-to-r from-sky-600 from-50% to-teal-400' : 'bg-violet-600'"
@@ -183,7 +211,14 @@ console.log(route.params);
           }}</a>
         </div>
       </div>
-      <img @click="checkLike" class="w-10 me-3" :src="liked ? tickSvg : arrowRotate" />
+      <div v-if="liking" class="inline-block me-3 h-8 w-8 animate-spin rounded-full border-4 border-solid border-current border-e-transparent align-[-0.125em] text-white motion-reduce:animate-[spin_1.5s_linear_infinite]"
+  role="status">
+  <span
+    class="!absolute !-m-px !h-px !w-px !overflow-hidden !whitespace-nowrap !border-0 !p-0 ![clip:rect(0,0,0,0)]"
+    >Loading...</span
+  >
+</div>
+      <img v-else-if="!liking" @click="checkLike" class="w-10 me-3" :src="liked ? tickSvg : arrowRotate" />
     </div>
     <div
     :class="retweeted ? 'bg-gradient-to-r from-sky-600 from-50% to-teal-400' : 'bg-violet-600'"
@@ -198,11 +233,19 @@ console.log(route.params);
           }}</a>
         </div>
       </div>
-      <img @click="checkRetweet" class="w-10 me-3" :src="retweeted ? tickSvg : arrowRotate" />
+      <div v-if="retweeting" class="inline-block me-3 font-bold h-8 w-8 animate-spin rounded-full border-4 border-solid border-current border-e-transparent align-[-0.125em] text-white motion-reduce:animate-[spin_1.5s_linear_infinite]"
+  role="status">
+  <span
+    class="!absolute !-m-px !h-px !w-px !overflow-hidden !whitespace-nowrap !border-0 !p-0 ![clip:rect(0,0,0,0)]"
+    >Loading...</span
+  >
+</div>
+      <img v-else-if="!retweeting" @click="checkRetweet" class="w-10 me-3" :src="retweeted ? tickSvg : arrowRotate" />
     </div>
     <div class="flex flex-col justify-center text-center my-10 text-white">
-      <p class="text-xl font-bold">ACCESS CODE</p>
-      <p class="blur-sm text-4xl my-5 font-bold">COMPLETESTEPS</p>
+      <p v class="text-xl font-bold">ACCESS CODE</p>
+      <p v-if="liked && followed && retweeted" class="text-4xl my-5 font-bold">{{questData?.accessCode}}</p>
+      <p v-else-if="!liked || !followed || !retweeted" class="blur-sm text-4xl my-5 font-bold">COMPLETESTEPS</p>
     </div>
     <div
       v-if="openTwitterLogin"

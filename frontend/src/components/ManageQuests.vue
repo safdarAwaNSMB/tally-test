@@ -119,7 +119,7 @@ console.log();
                         <div
                             class="my-4 rounded-lg px-4 py-8 w-full shadow-2xl shadow-gray-800 bg-gradient-to-r from-red-500 from-20% to-violet-800 to-70% flex justify-between flex-row">
                             <div>
-                                <img :src="backendUrl + '/' + selectedQuest.questImage" />
+                                <img class="w-28 h-28 rounded-full" :src="backendUrl + '/' + selectedQuest.questImage" />
                             </div>
                             <div class="text-center text-white">
                                 <p class="text-md font-bold">{{ selectedQuest.questName }}</p>

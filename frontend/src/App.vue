@@ -39,12 +39,17 @@ onMounted(async () => {
       :class="userState?.user?.admin ? 'text-black bg-white' : 'text-white bg-gradient-to-r from-indigo-700 via-blue-800 to-indigo-700'"
       class="w-full flex justify-between text-2xl font-bold  p-4 items-center">
       <h3 class=" ">TallyUP!</h3>
-      <h3 v-if="!userState.user?.admin">?</h3>
-      <button @click="()=>{
-        Cookies.remove('adminToken');
-        userState.updateUser(null);
-        router.push({name : 'home'})
-      }" class="p-2 rounded font-normal bg-blue-600 text-white text-xl" v-if="userState.user?.admin">Log Out</button>
+      <div class="flex flex-row items-center gap-2">
+        <h3 v-if="!userState.user">?</h3>
+        <h4 v-else-if="userState.user?.admin">Admin Panel</h4>
+        <p class="font-normal" v-else-if="userState?.user && !userState?.user?.admin">{{userState?.user?.name}}</p>
+        <button @click="()=>{
+          Cookies.remove('adminToken');
+          Cookies.remove('userToken');
+          userState.updateUser(null);
+          router.push('/')
+        }" class="p-2 rounded font-normal bg-blue-600 text-white text-xl" v-if="userState.user">Log Out</button>
+        </div>
     </header>
     <div :class="userState?.user?.admin ? '' :  'italic'">
       <RouterView />
