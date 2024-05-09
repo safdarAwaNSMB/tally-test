@@ -17,19 +17,15 @@ const questSchema = new mongoose.Schema({
   },
   followLink : {
     type : String,
-    required : true
   },
   likeLink : {
     type : String,
-    required : true
   },
   retweetLink : {
     type : String,
-    required : true
   },
   eventLink : {
     type : String,
-    required : true
   },
   accessCode : {
     type : String,
