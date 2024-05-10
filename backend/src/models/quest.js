@@ -7,7 +7,6 @@ const questSchema = new mongoose.Schema({
   },
   questImage: {
     type: String,
-    required: true,
   },
   header: {
     type: String,

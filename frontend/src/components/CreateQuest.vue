@@ -130,7 +130,6 @@ watch(
               type="file"
               accept=".jpg, .png, .jpeg"
               name="questImage"
-              required
             />
           </div>
         </div>

@@ -178,7 +178,7 @@ console.log(route.params);
         <div class="w-1/2">
           <img
             class="w-28 h-28 rounded-full"
-            :src="backendUrl + '/' + questData?.questImage"
+            :src="(backendUrl + '/' + questData?.questImage) || questLogo"
           />
         </div>
         <div class="text-center text-white w-1/2">
