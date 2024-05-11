@@ -7,7 +7,7 @@ module.exports.createQuest = async (req, res) => {
   try {  
       const newQuest = new Quest({
         ...req.body,
-        questImage: req.file.path
+        questImage: req?.file?.path || null
       });
       await newQuest.save();
       console.log('Added successfully!');
