@@ -3,6 +3,7 @@ import axios from "axios";
 import { ref, watch } from "vue";
 import { useToast } from "vue-toast-notification";
 import questLogo from "../assets/images/questLogo.png";
+import questSample from "../assets/images/example-panel.png";
 
 const toast = useToast();
 const backendUrl = import.meta.env.VITE_APP_BACKEND_URL;
@@ -27,8 +28,7 @@ const handleSubmit = async (event) => {
   for (const key in dataState.value) {
     if (
       dataState.value[key].length === 0 &&
-      (key === "questName" ||
-        key === "accessCode")
+      (key === "questName" || key === "accessCode")
     ) {
       errors.value.push(key);
       isError = true;
@@ -95,8 +95,8 @@ watch(
     <div class="md:w-1/2 w-full p-3">
       <p class="italic text-lg text-neutral-500">* Required Fields</p>
       <form encType="multipart/form-data" @submit.prevent="handleSubmit">
-        <div class="col-span-full my-5 flex flex-row">
-          <div class="w-2/3 me-5">
+        <div class="col-span-full my-5 flex sm:flex-row flex-col">
+          <div class="sm:w-2/3 w-full me-5">
             <label
               :class="
                 errors?.includes('questName')
@@ -121,9 +121,9 @@ watch(
               />
             </div>
           </div>
-          <div class="w-1/3">
+          <div class="sm:w-1/3 w-full">
             <label class="text-xl font-bold inline-block text-neutral-600"
-              >Image*
+              >Image
             </label>
             <input
               class="relative mt-2 m-0 block w-full min-w-0 flex-auto cursor-pointer rounded-lg border-2 border-solid border-secondary-500 bg-transparent bg-clip-padding px-3 py-2.5 text-xl font-normal text-surface transition duration-300 ease-in-out file:-mx-3 file:-my-[0.32rem] file:me-3 file:cursor-pointer file:overflow-hidden file:rounded-none file:border-0 file:border-e file:border-solid file:border-inherit file:bg-transparent file:px-3 file:py-[0.32rem] file:text-surface focus:border-primary focus:text-gray-700 focus:shadow-inset focus:outline-none dark:border-white/70 dark:text-white file:dark:text-white"
@@ -169,7 +169,7 @@ watch(
                 : 'text-neutral-600'
             "
             class="block text-xl font-bold leading-6"
-            >Twitter follow Account*
+            >Twitter follow Account
             <span
               class="text-red-500 font-normal"
               v-if="errors.includes('followLink')"
@@ -192,7 +192,7 @@ watch(
               errors.includes('likeLink') ? ' text-red-500' : 'text-neutral-600'
             "
             class="block text-xl font-bold leading-6"
-            >Twitter Post to Like*
+            >Twitter Post to Like
             <span
               class="text-red-500 font-normal"
               v-if="errors.includes('likeLink')"
@@ -217,7 +217,7 @@ watch(
                 : 'text-neutral-600'
             "
             class="block text-xl font-bold leading-6"
-            >Twitter Post to Retweet*
+            >Twitter Post to Retweet
             <span
               class="text-red-500 font-normal"
               v-if="errors.includes('retweetLink')"
@@ -242,7 +242,7 @@ watch(
                 : 'text-neutral-600'
             "
             class="block text-xl font-bold leading-6"
-            >In-App Event Link*
+            >In-App Event Link
             <span
               class="text-red-500 font-normal"
               v-if="errors.includes('eventLink')"
@@ -316,64 +316,70 @@ watch(
       v-if="created"
       class="backdrop-blur-sm fixed top-0 left-0 h-full box-border w-full overflow-y-scroll custom-bg flex justify-center flex-col items-center pt-36"
     >
-      <div class="w-full md:w-1/2 lg:w-1/3 m-6 mt-36 pt-36 pb-20 popUpBox">
+      <div class="w-[90%] md:w-1/2 lg:w-1/3 m-6 mt-36 pt-36 pb-20 popUpBox">
         <div class="bg-green-500 text-white p-6 text-center">
           <p class="text-xl font-bold">
             Event Created! Manage the event in the "Manager" tab
           </p>
-          <p class="text-lg text-green-200">
-            Event Link :
-            <a class="underline" href=""
-              >http://localhost:5173/single-quest/89325835389</a
-            >
+          <p class="text-lg truncate w-full text-green-200">
+            {{
+              createdQuest.eventLink?.length > 0 ? "Event Link" : "Access Code"
+            }}
+            :
+            <a class="underline " :href="createdQuest.eventLink || null">{{
+              createdQuest.eventLink || createdQuest.accessCode
+            }}</a>
           </p>
         </div>
         <div class="bg-white py-6 px-8">
           <div
-            class="my-4 rounded-lg px-4 py-8 w-full shadow-2xl shadow-gray-800 bg-gradient-to-r from-red-500 from-20% to-violet-800 to-70% flex justify-between flex-row"
+            class="sm:my-4 p-4 w-full sm:mx-0 flex justify-start items-center"
           >
-            <div>
-              <img :src="backendUrl + '/' + createdQuest.questImage" />
-            </div>
-            <div class="text-center text-white">
-              <p class="text-md font-bold">{{ createdQuest.questName }}</p>
-              <h2 class="text-3xl font-bold mb-3">{{ createdQuest.header }}</h2>
-              <hr class="border-black" />
-            </div>
+            <img
+              class="w-full h-48 sm:rounded-lg shadow-2xl shadow-gray-800"
+              :src="
+                createdQuest.questImage
+                  ? backendUrl + '/uploads/' + createdQuest.questImage?.filename
+                  : questSample
+              "
+            />
           </div>
-          <div class="my-8">
+
+          <div v-if="createdQuest.questName" class="my-8">
             <p class="font-bold text-xl mt-1 text-neutral-600">Quest Name</p>
             <p class="text-lg text-neutral-500">{{ createdQuest.questName }}</p>
           </div>
-          <div class="my-8">
+          <div v-if="createdQuest.header?.length > 0" class="my-8">
             <p class="font-bold text-xl mt-1 text-neutral-600">Header</p>
             <p class="text-lg text-neutral-500">{{ createdQuest.header }}</p>
           </div>
-          <div class="my-8">
+          <div v-if="createdQuest.description?.length > 0" class="my-8">
             <p class="font-bold text-xl mt-1 text-neutral-600">Description</p>
             <p class="text-lg text-neutral-500">
               {{ createdQuest.description }}
             </p>
           </div>
-          <div class="my-8">
+          <div v-if="createdQuest.followLink?.length > 0" class="my-8">
             <p class="font-bold text-xl mt-1 text-neutral-600">
               Twitter follow Account
             </p>
-            <p class="text-lg text-neutral-500">
+            <p class="text-lg truncate text-neutral-500">
               {{ createdQuest.followLink }}
             </p>
           </div>
-          <div class="my-8">
+          <div v-if="createdQuest.likeLink?.length > 0" class="my-8">
             <p class="font-bold text-xl mt-1 text-neutral-600">
               Twitter Post to Like
             </p>
-            <p class="text-lg text-neutral-500">{{ createdQuest.likeLink }}</p>
+            <p class="text-lg truncate text-neutral-500">
+              {{ createdQuest.likeLink }}
+            </p>
           </div>
-          <div class="my-8">
+          <div v-if="createdQuest.retweetLink?.length > 0" class="my-8">
             <p class="font-bold text-xl mt-1 text-neutral-600">
               Twitter Post Retweet
             </p>
-            <p class="text-lg text-neutral-500">
+            <p class="text-lg truncate text-neutral-500">
               {{ createdQuest.retweetLink }}
             </p>
           </div>

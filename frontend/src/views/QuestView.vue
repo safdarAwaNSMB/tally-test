@@ -4,7 +4,7 @@ import SingleQuest from '../components/SingleQuest.vue';
 
 
 <template>
-  <main class="gradient-bg p-4">
+  <main class="dots-Bg flex justify-center p-4">
     <SingleQuest />
   </main>
 </template>

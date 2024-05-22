@@ -24,8 +24,8 @@ onMounted(async () => {
 </script>
 
 <template>
-  <section class="flex md:w-2/3 w-full mx-auto m-4 p-5 flex-col justify-center">
-    <h3 class="text-center text-white text-3xl font-bold my-3">
+  <section class="flex sm:w-2/3 w-full mx-auto sm:m-4 sm:p-5 flex-col justify-center">
+    <h3 class="text-center text-white sm:text-3xl text-xl font-bold sm:my-3 my-1">
       Available Quests
     </h3>
     <div v-if="loading" class="flex mt-5 justify-center items-center w-full">

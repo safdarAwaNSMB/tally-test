@@ -21,10 +21,10 @@ console.log("");
     <main class=" bg-blue-200 pt-4">
         <div class="flex flex-row w-full">
             
-            <div class="text-center p-5 w-48 border-slate-300 bg-slate-300  border-t-2 ">
+            <div class="text-center w-1/2 p-5 sm:w-48 border-slate-300 bg-slate-300  border-t-2 ">
                 <router-link class=" text-neutral-500 text-xl text-center w-full font-bold" to="/admin-home">Create</router-link>
             </div>
-            <div class="bg-slate-300' border-t-2 text-center bg-white border-slate-300  p-5 w-48">
+            <div class=" w-1/2 border-t-2 text-center bg-white border-slate-300  p-5 sm:w-48">
                 <router-link class="text-neutral-500 text-xl text-center w-full font-bold" to="/admin-manage">Manage</router-link>
             </div>
         </div>

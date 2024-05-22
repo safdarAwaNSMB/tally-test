@@ -36,11 +36,11 @@ onMounted(async () => {
 <template>
   <div>
     <header
-      :class="userState?.user?.admin ? 'text-black bg-white' : 'text-white bg-gradient-to-r from-indigo-700 via-blue-800 to-indigo-700'"
-      class="w-full flex justify-between text-2xl font-bold  p-4 items-center">
-      <h3 class=" ">TallyUP!</h3>
+      :class="userState?.user?.admin ? 'text-black bg-white' : 'text-white shadow-md shadow-[#0000003D] bg-[#3B0AA5] backdrop-blur-sm'"
+      class="w-full flex justify-between sm:text-2xl text-lg font-bold  p-4 sm:px-10 items-center">
+      <img src="./assets/images/logo-header.png" class=" sm:w-20 w-14"/>
       <div class="flex flex-row items-center gap-2">
-        <h3 v-if="!userState.user">?</h3>
+        <img v-if="!userState.user" src="./assets/images/help-button.png" class=" sm:w-4 w-3"/>
         <h4 v-else-if="userState.user?.admin">Admin Panel</h4>
         <p class="font-normal" v-else-if="userState?.user && !userState?.user?.admin">{{userState?.user?.name}}</p>
         <button @click="()=>{
@@ -48,12 +48,11 @@ onMounted(async () => {
           Cookies.remove('userToken');
           userState.updateUser(null);
           router.push('/')
-        }" class="p-2 rounded font-normal bg-blue-600 text-white text-xl" v-if="userState.user">Log Out</button>
+        }" class="sm:p-2 p-1 rounded font-normal bg-blue-600 text-white sm:text-xl text-lg" v-if="userState.user">Log Out</button>
         </div>
     </header>
-    <div :class="userState?.user?.admin ? '' :  'italic'">
+    <div :class="userState?.user?.admin ? '' :  'italic font'">
       <RouterView />
     </div>
-
   </div>
 </template>

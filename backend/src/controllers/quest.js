@@ -5,18 +5,22 @@ const fs = require('fs')
 
 module.exports.createQuest = async (req, res) => {
   try {  
+    console.log("Request for creation");
+    console.log(req?.file);
       const newQuest = new Quest({
         ...req.body,
-        questImage: req?.file?.path || null
+        questImage: req?.file || null
       });
-      await newQuest.save();
-      console.log('Added successfully!');
+      await newQuest.save().then(()=>{
+        console.log('Added successfully!');
+
+      });
       res.status(200).send({
-        status: true, message: "The ques is added!", data: newQuest
+        status: true, message: "The quest is added!", data: newQuest
       });
   } catch (error) {
     console.log(error);
-    res.status(400).send({ status: false, message: error.message });
+    res.status(400).send({ status: false, message: error });
   }
 }
 

@@ -19,10 +19,10 @@ onMounted(() => {
 <template>
     <main class=" bg-blue-200 pt-4">
         <div class="flex flex-row w-full">
-            <div class="text-center p-5 w-48 bg-white border-t-2 border-slate-300">
+            <div class="text-center p-5 sm:w-48 w-1/2 bg-white border-t-2 border-slate-300">
                 <router-link class=" text-xl text-neutral-500 text-center w-full font-bold" to="/admin-home">Create</router-link>
             </div>
-            <div class="bg-slate-300' border-t-2 text-center bg-slate-300 border-slate-300 p-5 w-48">
+            <div class="w-1/2 border-t-2 text-center bg-slate-300 border-slate-300 p-5 sm:w-48">
                 <router-link class="text-neutral-500 text-xl text-center w-full font-bold" to="/admin-manage">Manage</router-link>
             </div>
         </div>

@@ -61,7 +61,7 @@ onMounted(async () => {
 </script>
 
 <template>
-    <main class="gradient-bg min-h-screen p-4">
+    <main class="dots-Bg min-h-screen flex justify-center w-full p-4">
         <Index />
     </main>
 </template>
