@@ -338,7 +338,7 @@ watch(
             <img
               class="w-full h-48 sm:rounded-lg shadow-2xl shadow-gray-800"
               :src="
-                createdQuest.questImage
+                createdQuest.questImage?.filename
                   ? backendUrl + '/uploads/' + createdQuest.questImage?.filename
                   : questSample
               "

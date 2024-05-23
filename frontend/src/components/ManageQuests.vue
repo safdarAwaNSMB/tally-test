@@ -174,7 +174,7 @@ console.log();
               <img
                 class="w-full h-48 sm:rounded-lg shadow-2xl shadow-gray-800"
                 :src="
-                  selectedQuest.questImage
+                  selectedQuest.questImage?.filename
                     ? backendUrl +
                       '/uploads/' +
                       selectedQuest.questImage?.filename

@@ -198,7 +198,7 @@ console.log(route.params);
 
 <template>
   <section
-    class="flex md:w-2/3 w-full min-h-screen mx-auto sm:m-4 sm:p-5 flex-col justify-center"
+    class="flex md:w-2/3 w-full min-h-screen mx-auto pt-0 lg:mt-3 mt-0 md:m-4 lg:p-4 flex-col justify-center"
   >
     <div v-if="loading" class="flex mt-5 justify-center items-center w-full">
       <div
@@ -213,21 +213,21 @@ console.log(route.params);
     </div>
     <div v-else-if="!loading">
       <div
-        class="flex sm:my-5 flex-row w-full justify-between items-center gap-5 flex-wrap lg:flex-nowrap sm:py-4"
+        class="flex mt-0 md:my-5 flex-row w-full justify-between items-center gap-5 flex-wrap lg:flex-nowrap pt-0 md:py-4"
       >
         <div
-          class="sm:my-4 py-3 w-[111%] sm:w-full sm:mx-0 mx-[-15px] lg:w-1/2 flex justify-start items-center"
+          class="md:my-4 mt-0 sm:mb-4  sm:py-3 pt-0 w-[111%] sm:w-full sm:mx-0 mx-[-15px] lg:w-1/2 flex justify-start items-center"
         >
           <img
             class="w-full h-48 sm:rounded-lg shadow-2xl shadow-gray-800"
             :src="
-              questData?.questImage
+              questData?.questImage?.filename
                 ? backendUrl + '/uploads/' + questData?.questImage?.filename
                 : questSample
             "
           />
         </div>
-        <div class="my-4 sm:px-5 sm:py-8 w-full lg:w-1/2 text-white">
+        <div class="sm:my-4 my-1 sm:px-5 sm:py-4 py-2 md:py-8 w-full lg:w-1/2 text-white">
           <p
             class="sm:text-2xl text-lg text-center lg:text-start roboto-bold-italic"
           >
