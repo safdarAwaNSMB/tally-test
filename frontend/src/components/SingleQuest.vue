@@ -31,6 +31,19 @@ const retweeting = ref(false);
 const loading = ref(true);
 
 onMounted(async () => {
+  if (userToken && !userState.user) {
+    await axios
+      .get(`https://tally-test.onrender.com/get-twitter-user/${userToken}`)
+      .then((res) => {
+        console.log(res.data.userData);
+        userState.updateUser(res.data.userData);
+        
+      })
+      .catch((err) => console.log(err));
+  }
+});
+
+onMounted(async () => {
   await axios
     .get(`${backendUrl}/get-quest/${route.params.questId}`)
     .then((res) => {
