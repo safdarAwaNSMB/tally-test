@@ -56,10 +56,10 @@ onMounted(async () => {
   }
 });
 const checkLogin = (relativeLink) => {
-  if (userState?.user?.userData && !userState?.user?.admin ) {
+  if (userState?.user?.userData && !userState?.user?.admin) {
     window.open(relativeLink, "_blank");
   } else {
-    if(!userToken){
+    if (!userToken) {
       openTwitterLogin.value = true;
     }
   }
@@ -194,13 +194,11 @@ const copyToClipboard = async () => {
     console.error("Failed to copy text:", err);
   }
 };
-
-console.log(route.params);
 </script>
 
 <template>
   <section
-    class="flex md:w-2/3 w-full min-h-screen mx-auto pt-0 lg:mt-3 mt-0 md:m-4 lg:p-4 flex-col justify-center"
+    class="flex md:w-[800px] lg:w-[1100px] w-full min-h-screen mx-auto pt-0 lg:mt-3 mt-0 md:m-4 lg:p-4 flex-col justify-center"
   >
     <div v-if="loading" class="flex mt-5 justify-center items-center w-full">
       <div
@@ -218,7 +216,7 @@ console.log(route.params);
         class="flex mt-0 md:my-5 flex-row w-full justify-between items-center gap-5 flex-wrap lg:flex-nowrap pt-0 md:py-4"
       >
         <div
-          class="md:my-4 mt-0 sm:mb-4  sm:py-3 pt-0 w-[111%] sm:w-full sm:mx-0 mx-[-15px] lg:w-1/2 flex justify-start items-center"
+          class="md:my-4 mt-0 sm:mb-4 sm:py-3 pt-0 w-[111%] sm:w-full sm:mx-0 mx-[-15px] lg:w-1/2 flex justify-start items-center"
         >
           <img
             class="w-full h-48 sm:rounded-lg shadow-2xl shadow-gray-800"
@@ -229,7 +227,9 @@ console.log(route.params);
             "
           />
         </div>
-        <div class="sm:my-4 my-1 sm:px-5 sm:py-4 py-2 md:py-8 w-full lg:w-1/2 text-white">
+        <div
+          class="sm:my-4 my-1 sm:px-5 sm:py-4 py-2 md:py-8 w-full lg:w-1/2 text-white"
+        >
           <p
             class="sm:text-2xl text-lg text-center lg:text-start roboto-bold-italic"
           >
@@ -249,8 +249,8 @@ console.log(route.params);
         v-if="questData?.followLink?.length > 0"
         :class="
           followed
-            ? 'bg-gradient-to-r from-sky-600 from-50% to-teal-400'
-            : 'bg-violet-600'
+            ? 'bg-gradient-to-r from-[#0077FB] from-50% to-[#15E6D4]'
+            : 'bg-gradient-to-r from-[#5D0DE6] from-50% to-[#7439FF]'
         "
         class="flex text-white my-2 flex-row sm:gap-0 w-full items-center justify-between rounded-lg py-4 px-2 sm:pe-6"
       >
@@ -298,8 +298,8 @@ console.log(route.params);
         v-if="questData?.likeLink?.length > 0"
         :class="
           liked
-            ? 'bg-gradient-to-r from-sky-600 from-50% to-teal-400'
-            : 'bg-violet-600'
+            ? 'bg-gradient-to-r from-[#0077FB] from-50% to-[#15E6D4]'
+            : 'bg-gradient-to-r from-[#5D0DE6] from-50% to-[#7439FF]'
         "
         class="flex text-white my-2 flex-row w-full items-center justify-between rounded-lg py-4 px-2 sm:pe-6"
       >
@@ -346,8 +346,8 @@ console.log(route.params);
         v-if="questData?.retweetLink?.length > 0"
         :class="
           retweeted
-            ? 'bg-gradient-to-r from-sky-600 from-50% to-teal-400'
-            : 'bg-violet-600'
+            ? 'bg-gradient-to-r from-[#0077FB] from-50% to-[#15E6D4]'
+            : 'bg-gradient-to-r from-[#5D0DE6] from-50% to-[#7439FF]'
         "
         class="flex text-white my-2 flex-row w-full items-center justify-between rounded-lg py-4 px-2 sm:pe-6"
       >
@@ -392,20 +392,22 @@ console.log(route.params);
       </div>
       <div class="flex flex-col justify-center text-center my-10 text-white">
         <p v class="text-xl roboto-bold-italic">ACCESS CODE</p>
-        <div class="flex ms-[8%] sm:ms-[6%] justify-center items-center flex-row w-full" v-if="
-              (questData?.likeLink?.length > 0 ? liked : true) &&
-              (questData?.followLink?.length > 0 ? followed : true) &&
-              (questData?.retweetLink?.length > 0 ? retweeted : true)
-            ">
+        <div
+          class="flex ms-[8%] sm:ms-[6%] justify-center items-center flex-row w-full"
+          v-if="
+            (questData?.likeLink?.length > 0 ? liked : true) &&
+            (questData?.followLink?.length > 0 ? followed : true) &&
+            (questData?.retweetLink?.length > 0 ? retweeted : true)
+          "
+        >
           <p
-            
             class="sm:text-4xl text-3xl roboto-bold-italic text-center inline-block sm:my-5 my-2"
           >
             {{ questData?.accessCode }}
           </p>
           <img
             @click="copyToClipboard"
-            class="cursor-pointer w-18  sm:w-20 w-18 h-20 inline-block"
+            class="cursor-pointer w-18 sm:w-20 w-18 h-20 inline-block"
             :src="copyIcon"
           />
         </div>
@@ -467,7 +469,8 @@ console.log(route.params);
             <button
               @click="connectTwitter"
               class="p-2 text-center flex items-center gap-2 justify-center text-xl roboto-bold-italic mt-5 text-white w-[90%] mx-auto rounded-full bg-gradient-to-b mb-4 from-[#309BFF] to-[#006EFF]"
-            > <img :src="successTwitterLogo" class="w-6 h-6" />
+            >
+              <img :src="successTwitterLogo" class="w-6 h-6" />
               SIGN IN WITH X (TWITTER)
             </button>
           </div>
