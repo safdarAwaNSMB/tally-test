@@ -1,6 +1,8 @@
 <script setup>
 import questSample from "../assets/images/example-panel.png";
 import twitterLogo from "../assets/images/twitter.png";
+import successTwitterLogo from "../assets/x-twitter.svg";
+import pendingTwitterLogo from "../assets/x-twitter (1).svg";
 import tickSvg from "../assets/check-solid.svg";
 import crossIcon from "../assets/xmark-solid.svg";
 import arrowRotate from "../assets/arrow-rotate-right-solid.svg";
@@ -16,8 +18,6 @@ import { useToast } from "vue-toast-notification";
 const openTwitterLogin = ref(false);
 const questData = ref(null);
 const route = useRoute();
-console.log(route.params);
-console.log(route.query);
 const router = useRouter();
 const backendUrl = import.meta.env.VITE_APP_BACKEND_URL;
 const userState = userStore();
@@ -256,7 +256,7 @@ console.log(route.params);
       >
         <img
           class="w-[40px] sm:w-[80px] h-[25px] sm:h-[50px]"
-          :src="twitterLogo"
+          :src="followed ? successTwitterLogo : pendingTwitterLogo"
         />
 
         <div
@@ -305,7 +305,7 @@ console.log(route.params);
       >
         <img
           class="w-[40px] sm:w-[80px] h-[25px] sm:h-[50px]"
-          :src="twitterLogo"
+          :src="liked ? successTwitterLogo : pendingTwitterLogo"
         />
         <div
           @click="() => checkLogin(questData?.likeLink)"
@@ -353,7 +353,7 @@ console.log(route.params);
       >
         <img
           class="w-[40px] sm:w-[80px] h-[25px] sm:h-[50px]"
-          :src="twitterLogo"
+          :src="retweeted ? successTwitterLogo : pendingTwitterLogo"
         />
         <div
           @click="() => checkLogin(questData?.retweetLink)"
@@ -466,8 +466,8 @@ console.log(route.params);
 
             <button
               @click="connectTwitter"
-              class="p-2 text-center text-xl roboto-bold-italic mt-5 text-white w-[90%] mx-auto rounded-full bg-gradient-to-b mb-4 from-[#309BFF] to-[#006EFF]"
-            >
+              class="p-2 text-center flex items-center gap-2 justify-center text-xl roboto-bold-italic mt-5 text-white w-[90%] mx-auto rounded-full bg-gradient-to-b mb-4 from-[#309BFF] to-[#006EFF]"
+            > <img :src="successTwitterLogo" class="w-6 h-6" />
               SIGN IN WITH X (TWITTER)
             </button>
           </div>
