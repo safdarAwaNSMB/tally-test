@@ -56,10 +56,12 @@ onMounted(async () => {
   }
 });
 const checkLogin = (relativeLink) => {
-  if (userState?.user?.userData && !userState?.user?.admin) {
+  if (userState?.user?.userData && !userState?.user?.admin ) {
     window.open(relativeLink, "_blank");
   } else {
-    openTwitterLogin.value = true;
+    if(!userToken){
+      openTwitterLogin.value = true;
+    }
   }
 };
 const generateRandomString = () => {
