@@ -198,7 +198,7 @@ const copyToClipboard = async () => {
 
 <template>
   <section
-    class="flex md:w-[800px] lg:w-[1100px] w-full min-h-screen mx-auto pt-0 lg:mt-3 mt-0 md:m-4 lg:p-4 flex-col justify-center"
+    class="flex md:w-[900px] w-full min-h-screen mx-auto pt-0 lg:mt-3 mt-0 md:m-4 lg:p-4 flex-col justify-center"
   >
     <div v-if="loading" class="flex mt-5 justify-center items-center w-full">
       <div
@@ -393,7 +393,7 @@ const copyToClipboard = async () => {
       <div class="flex flex-col justify-center text-center my-10 text-white">
         <p v class="text-xl roboto-bold-italic">ACCESS CODE</p>
         <div
-          class="flex ms-[8%] sm:ms-[6%] justify-center items-center flex-row w-full"
+          class="flex items-center justify-center flex-row w-full"
           v-if="
             (questData?.likeLink?.length > 0 ? liked : true) &&
             (questData?.followLink?.length > 0 ? followed : true) &&
@@ -401,15 +401,15 @@ const copyToClipboard = async () => {
           "
         >
           <p
-            class="sm:text-4xl text-3xl roboto-bold-italic text-center inline-block sm:my-5 my-2"
+            class="sm:text-4xl mx-auto relative text-3xl roboto-bold-italic text-center inline-block sm:my-5 my-2"
           >
             {{ questData?.accessCode }}
+            <img
+              @click="copyToClipboard"
+              class="cursor-pointer max-w-20 absolute right-[-80px] top-[-20px] w-18 sm:w-20 h-20 inline-block"
+              :src="copyIcon"
+            />
           </p>
-          <img
-            @click="copyToClipboard"
-            class="cursor-pointer w-18 sm:w-20 w-18 h-20 inline-block"
-            :src="copyIcon"
-          />
         </div>
         <div v-else class="w-full flex justify-center items-center">
           <img class="md:w-1/3 w-1/2" :src="blurCode" />

@@ -21,7 +21,7 @@ module.exports.authenticateUser = async (req, res) => {
     const { code } = req.params;
     const grantType = "authorization_code";
     const clientId = "TFBkUFlmeldEeC1sTllPMHVnbnI6MTpjaQ"; // Replace with your client ID
-    const redirectUri = "http://localhost:5173/twitter-success"; // Replace with your redirect URI
+    const redirectUri = "https://tally-test.onrender.com/twitter-success"; // Replace with your redirect URI
     const codeVerifier = "abc123ABC"; // Replace with your code verifier (should be the same as used during authorization)
 
     // Prepare data for the request body
