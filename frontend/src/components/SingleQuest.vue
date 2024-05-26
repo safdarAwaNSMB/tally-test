@@ -200,7 +200,7 @@ const copyToClipboard = async () => {
 
 <template>
   <section
-    class="flex md:w-[900px] w-full min-h-screen mx-auto pt-0 lg:mt-3 mt-0 md:m-4 lg:p-4 flex-col lg:justify-center"
+    class="flex md:w-[900px] w-full min-h-screen mx-auto pt-0 mt-0 md:m-4 lg:p-4 flex-col"
   >
     <div v-if="loading" class="flex mt-5 justify-center items-center w-full">
       <div
@@ -215,13 +215,13 @@ const copyToClipboard = async () => {
     </div>
     <div v-else-if="!loading">
       <div
-        class="flex mt-0 md:my-5 flex-row w-full justify-between items-center gap-5 flex-wrap lg:flex-nowrap pt-0 md:py-4"
+        class="flex mt-0 flex-row w-full justify-between items-center gap-5 flex-wrap lg:flex-nowrap pt-0"
       >
         <div
           class="md:my-4 mt-0 sm:mb-4 sm:py-3 pt-0 w-[111%] sm:w-full sm:mx-0 mx-[-15px] lg:w-1/2 flex justify-start items-center"
         >
           <img
-            class="w-full h-48 sm:rounded-lg shadow-2xl shadow-gray-800"
+            class="w-full h-full sm:rounded-lg lg:rounded-custom shadow-2xl shadow-gray-800 object-contain"
             :src="
               questData?.questImage?.filename
                 ? backendUrl + '/uploads/' + questData?.questImage?.filename
@@ -241,7 +241,7 @@ const copyToClipboard = async () => {
             }}
           </p>
           <p
-            class="text-slate-400 roboto-condensed-font text-center lg:text-start"
+            class="text-custom-purple roboto-condensed-font text-center lg:text-start"
           >
             {{ questData?.description || "Lucky prizes are on the line!" }}
           </p>
