@@ -30,18 +30,7 @@ const following = ref(false);
 const retweeting = ref(false);
 const loading = ref(true);
 
-onMounted(async () => {
-  if (userToken && !userState.user) {
-    await axios
-      .get(`https://tally-test.onrender.com/get-twitter-user/${userToken}`)
-      .then((res) => {
-        console.log(res.data.userData);
-        userState.updateUser(res.data.userData);
-        
-      })
-      .catch((err) => console.log(err));
-  }
-});
+
 
 onMounted(async () => {
   await axios
@@ -58,7 +47,7 @@ onMounted(async () => {
     });
   if (userToken) {
     await axios
-      .get(`https://tally-test.onrender.com/get-twitter-user/${userToken}`)
+      .get(`/get-twitter-user/${userToken}`)
       .then((res) => {
         console.log(res.data);
         userState.updateUser(res.data);
@@ -69,7 +58,7 @@ onMounted(async () => {
   }
 });
 const checkLogin = (relativeLink) => {
-  if (userState?.user?.userData && !userState?.user?.admin) {
+  if (userToken && !userState?.user?.admin) {
     window.open(relativeLink, "_blank");
   } else {
     if (!userToken) {
@@ -211,7 +200,7 @@ const copyToClipboard = async () => {
 
 <template>
   <section
-    class="flex md:w-[900px] w-full min-h-screen mx-auto pt-0 lg:mt-3 mt-0 md:m-4 lg:p-4 flex-col justify-center"
+    class="flex md:w-[900px] w-full min-h-screen mx-auto pt-0 lg:mt-3 mt-0 md:m-4 lg:p-4 flex-col lg:justify-center"
   >
     <div v-if="loading" class="flex mt-5 justify-center items-center w-full">
       <div

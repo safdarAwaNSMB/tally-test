@@ -47,10 +47,10 @@ const code = ref(null);
 onMounted(async () => {
     if (code && route.query.code) {
 
-        await axios.get(`https://tally-test.onrender.com/twitter-success/${route.query.code}`).then(res => {
+        await axios.get(`/twitter-success/${route.query.code}`).then(res => {
             console.log(res.data.userToken);
             Cookies.set('userToken', res.data.userToken)
-            window.history.go(-3)
+            window.history.go(-2)
             // Cookies.set('userId', res.data.user);
         }).catch(err => console.log(err))
        
