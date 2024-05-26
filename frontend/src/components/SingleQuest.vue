@@ -417,7 +417,11 @@ const copyToClipboard = async () => {
           <img class="md:w-1/3 w-1/2" :src="blurCode" />
         </div>
         <a
-          
+        v-if="
+            (questData?.likeLink?.length > 0 ? liked : true) &&
+            (questData?.followLink?.length > 0 ? followed : true) &&
+            (questData?.retweetLink?.length > 0 ? retweeted : true)
+          "
           :href="questData?.eventLink"
           class="sm:py-4 py-2 w-[70%] cursor-pointer mx-auto text-center text-white sm:text-2xl text-lg font-bold italic bg-gradient-to-b from-[#FFDD00] from-10% rounded-full my-3 to-[#FF00D5]"
         >
