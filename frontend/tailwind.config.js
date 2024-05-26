@@ -13,6 +13,9 @@ export default {
       },
       backgroundImage: {
         'custom-linear-gradient': 'linear-gradient(90deg, #5D0DE6, #7439FF)'
+      },
+      boxShadow: {
+        'custom-shadow': '0px 10px 33px rgba(0, 0, 0, 0.3)'  // Adjusted for CSS syntax correctness
       }
     },
   },

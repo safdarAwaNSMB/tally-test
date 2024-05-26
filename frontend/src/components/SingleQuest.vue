@@ -218,7 +218,7 @@ const copyToClipboard = async () => {
         class="flex mt-0 flex-row w-full justify-between items-center gap-5 flex-wrap lg:flex-nowrap pt-0"
       >
         <div
-          class="md:my-4 mt-0 sm:mb-4 sm:py-3 pt-0 w-[111%] sm:w-full sm:mx-0 mx-[-15px] lg:w-1/2 flex justify-start items-center"
+          class="lg:shadow-custom-shadow md:my-4 mt-0 sm:mb-4 sm:py-3 pt-0 w-[111%] sm:w-full sm:mx-0 mx-[-15px] lg:w-1/2 flex justify-start items-center"
         >
           <img
             class="w-full h-full sm:rounded-lg lg:rounded-custom shadow-2xl shadow-gray-800 object-contain"
