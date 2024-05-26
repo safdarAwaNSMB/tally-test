@@ -218,10 +218,10 @@ const copyToClipboard = async () => {
         class="flex mt-0 flex-row w-full justify-between items-center gap-5 flex-wrap lg:flex-nowrap pt-0"
       >
         <div
-          class="lg:shadow-custom-shadow md:my-4 mt-0 sm:mb-4 sm:py-3 pt-0 w-[111%] sm:w-full sm:mx-0 mx-[-15px] lg:w-1/2 flex justify-start items-center"
+          class=" md:my-4 mt-0 sm:mb-4 sm:py-3 pt-0 w-[111%] sm:w-full sm:mx-0 mx-[-15px] lg:w-1/2 flex justify-start items-center"
         >
           <img
-            class="w-full h-full sm:rounded-lg lg:rounded-custom shadow-2xl shadow-gray-800 object-contain"
+            class="w-full h-full lg:shadow-custom-shadow sm:rounded-lg lg:rounded-custom object-contain"
             :src="
               questData?.questImage?.filename
                 ? backendUrl + '/uploads/' + questData?.questImage?.filename
@@ -417,12 +417,7 @@ const copyToClipboard = async () => {
           <img class="md:w-1/3 w-1/2" :src="blurCode" />
         </div>
         <a
-          v-if="
-            (questData?.likeLink?.length > 0 ? liked : true) &&
-            (questData?.followLink?.length > 0 ? followed : true) &&
-            (questData?.retweetLink?.length > 0 ? retweeted : true) &&
-            questData?.eventLink?.length > 0
-          "
+          
           :href="questData?.eventLink"
           class="sm:py-4 py-2 w-[70%] cursor-pointer mx-auto text-center text-white sm:text-2xl text-lg font-bold italic bg-gradient-to-b from-[#FFDD00] from-10% rounded-full my-3 to-[#FF00D5]"
         >
