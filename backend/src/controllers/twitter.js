@@ -118,7 +118,7 @@ module.exports.checkFollow = async (req, res) => {
         Authorization: `Bearer ${token}`,
       },
     });
-    console.log(followAccount.data.id);
+    console.log(followAccount.data);
 
     const userFollowings = await axios.post(`https://api.twitter.com/2/users/${userId}/following`, 
     {
