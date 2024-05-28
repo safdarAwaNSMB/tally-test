@@ -126,6 +126,7 @@ module.exports.checkFollow = async (req, res) => {
     },
     {
       headers: {
+        'Content-type': 'application/json',
         Authorization: `Bearer ${token}`
       }
     });
