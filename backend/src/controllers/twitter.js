@@ -131,7 +131,7 @@ module.exports.checkFollow = async (req, res) => {
     });
    
 
-    console.log(isFollowed);
+    console.log(userFollowings);
     // Now you have the access token!
     res.status(200).json({ result: userFollowings.data.following });
   } catch (error) {
