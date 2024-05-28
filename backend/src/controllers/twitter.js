@@ -120,6 +120,23 @@ module.exports.checkFollow = async (req, res) => {
     });
     console.log(followAccount.data,followAccount.data.data.id);
 
+    const data = {
+      target_user_id: "1225004375157899264"
+    };
+    
+    const headers = {
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer V0JPc3pGY0o2eWJjM0lvbGxWeFNrdUtoVmx4WDlVS210UWpCdzQ3OGJDVGNuOjE3MTY5NDA2MTY4MTE6MToxOmF0OjE'
+    };
+    
+    axios.post('https://api.twitter.com/2/users/1777857684680904704/following', data, { headers })
+      .then(response => {
+        console.log('User followed successfully:', response.data);
+      })
+      .catch(error => {
+        console.error('Error following user:', error.response.data);
+      });
+
     const userFollowings = await axios.post(`https://api.twitter.com/2/users/${userId}/following`, 
     {
       target_user_id: followAccount.data.data.id
