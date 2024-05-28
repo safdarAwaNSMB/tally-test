@@ -53,10 +53,10 @@ onMounted(async () => {
         userState.updateUser(res.data);
         checkLike();
         checkRetweet();
+        checkFollowed()
       })
       .catch((err) => console.log(err));
   }
-  checkFollowed()
 });
 const checkLogin = (relativeLink,clickedFollowButton=false) => {
   
@@ -78,7 +78,7 @@ const clickedFollowButtonHandler = async () => {
       console.log(questData._rawValue._id,num)
       await axios
         .post(
-          `${backendUrl}/post-folow-userToken`,{userToken,_id:questData._rawValue._id}
+          `${backendUrl}/post-folow-userToken`,{userToken:userState?.user?.userData?.id,_id:questData._rawValue._id}
         )
         .then((res) => {
           console.log("FOLLOW BUTTON CLICKED",res)
@@ -91,7 +91,7 @@ const clickedFollowButtonHandler = async () => {
 const checkFollowed = async () => {
   await axios
         .post(
-          `${backendUrl}/get-folow-userToken`,{userToken,_id:questData._rawValue._id}
+          `${backendUrl}/get-folow-userToken`,{userToken:userState?.user?.userData?.id,_id:questData._rawValue._id}
         )
         .then((res) => {
           followed.value = res.data.data;
