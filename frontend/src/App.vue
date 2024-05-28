@@ -62,10 +62,10 @@ onMounted(async () => {
               router.push('/');
             }
           "
-          class="sm:p-2 p-1 rounded font-normal bg-blue-600 text-white sm:text-xl text-lg"
+          class="sm:p-2 p-1 font-normal roboto-condensed-font-italic rounded-full bg-gradient-to-b from-[#309BFF] to-[#006EFF] text-white text-xs sm:text-xl"
           v-if="userState.user"
         >
-          Log Out
+          LOG OUT
         </button>
       </div>
     </header>

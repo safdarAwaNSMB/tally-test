@@ -24,6 +24,52 @@ module.exports.createQuest = async (req, res) => {
   }
 }
 
+module.exports.getFollowUserToken = async (req, res) => {
+  console.log("followUserToken",req);
+  try {
+    const updatedQuest = await Quest.findById(req.body._id);
+    let filteredUser = updatedQuest.userTokens.filter(token => token == req.body.userToken)
+
+    let followed = false
+
+    if(filteredUser.length){
+      followed = true
+    }
+   
+    console.log('Retrieved successfully!');
+    return res.status(200).send({
+      status: true,
+      message: 'The Quest is Updated!',
+      data: followed
+    });
+  } catch (error) {
+    console.error('Error updating vehicle:', error);
+    return res.status(500).send({ status: false, message: 'Internal server error' });
+  }
+};
+
+module.exports.followUserToken = async (req, res) => {
+  console.log("followUserToken",req);
+  try {
+    const updatedQuest = await Quest.findById(req.body._id);
+    let filteredUser = updatedQuest.userTokens.filter(token => token == req.body.userToken)
+
+    if(!filteredUser.length){
+      updatedQuest.userTokens.push(req.body.userToken)
+    }
+    console.log("updatedQuest",updatedQuest);
+    await updatedQuest.save()
+    console.log('Updated successfully!');
+    return res.status(200).send({
+      status: true,
+      message: 'The Quest is Updated!',
+      data: updatedQuest
+    });
+  } catch (error) {
+    console.error('Error updating vehicle:', error);
+    return res.status(500).send({ status: false, message: 'Internal server error' });
+  }
+};
 
 module.exports.editQuest = async (req, res) => {
   console.log(req.body);

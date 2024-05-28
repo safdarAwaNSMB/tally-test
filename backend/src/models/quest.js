@@ -17,6 +17,11 @@ const questSchema = new mongoose.Schema({
   followLink : {
     type : String,
   },
+  userTokens:[
+    {
+      type : String,
+    } 
+  ],
   likeLink : {
     type : String,
   },

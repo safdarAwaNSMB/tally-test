@@ -11,7 +11,7 @@ const props = defineProps(['data']);
         <div class="flex my-2 flex-row w-full items-center bg-gradient-to-r from-[#5D0DE6] from-50% to-[#7439FF] justify-between rounded-lg md:px-8 p-3">
             <div class="flex flex-row items-center gap-2">
                 <img  class="rounded-full w-12 h-12" :src="props.data?.questImage?.filename ? (backendUrl + '/uploads/' + props.data?.questImage?.filename) : questLogo" alt="image">
-                <h1 class="sm:text-xl text-lg text-white">{{ props.data?.questName }}</h1>
+                <h1 class="sm:text-xl text-lg text-white roboto-condensed-font-italic uppercase">{{ props.data?.questName }}</h1>
             </div>
             <img :src="rightArrow" class=" w-4" />
         </div>

@@ -56,16 +56,51 @@ onMounted(async () => {
       })
       .catch((err) => console.log(err));
   }
+  checkFollowed()
 });
-const checkLogin = (relativeLink) => {
+const checkLogin = (relativeLink,clickedFollowButton=false) => {
+  
   if (userToken && !userState?.user?.admin) {
     window.open(relativeLink, "_blank");
+    if(clickedFollowButton){
+    clickedFollowButtonHandler()
+  }
   } else {
     if (!userToken) {
       openTwitterLogin.value = true;
     }
   }
 };
+
+const clickedFollowButtonHandler = async () => {
+    if(userToken){
+      const num = "0"
+      console.log(questData._rawValue._id,num)
+      await axios
+        .post(
+          `${backendUrl}/post-folow-userToken`,{userToken,_id:questData._rawValue._id}
+        )
+        .then((res) => {
+          console.log("FOLLOW BUTTON CLICKED",res)
+        })
+        .catch((err) => console.log(err))
+        .finally(() => (following.value = false));
+    }
+}
+
+const checkFollowed = async () => {
+  await axios
+        .post(
+          `${backendUrl}/get-folow-userToken`,{userToken,_id:questData._rawValue._id}
+        )
+        .then((res) => {
+          followed.value = res.data.data;
+          console.log("FOLLOW BUTTON CLICKED",res.data.data)
+        })
+        .catch((err) => console.log(err))
+        .finally(() => (following.value = false));
+}
+
 const generateRandomString = () => {
   const charset =
     "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
@@ -150,6 +185,8 @@ const checkLike = async () => {
   }
 };
 
+
+
 const checkRetweet = async () => {
   try {
     console.log(userState?.user?.userData?.id);
@@ -233,7 +270,7 @@ const copyToClipboard = async () => {
           class="sm:my-4 my-1 sm:px-5 sm:py-4 py-2 md:py-8 w-full lg:w-1/2 text-white"
         >
           <p
-            class="sm:text-2xl text-lg text-center lg:text-start roboto-bold-italic"
+            class="sm:text-2xl text-lg text-center lg:text-start roboto-condensed-font-italic"
           >
             {{
               questData?.header ||
@@ -262,17 +299,17 @@ const copyToClipboard = async () => {
         />
 
         <div
-          @click="() => checkLogin(questData?.followLink)"
+          @click="() => checkLogin(questData?.followLink,true)"
           class="flex w-4/6 sm:w-5/6 flex-row items-center"
         >
           <div class="flex flex-col w-full">
             <p
-              class="sm:text-xl roboto-bold-italic inline-block text-md font-bold"
+              class="sm:text-xl roboto-condensed-font-italic inline-block text-md font-bold"
             >
               FOLLOW US ON TWITTER
             </p>
             <p
-              class="sm:text-lg w-3/4 truncate text-sm not-italic underline text-[#4DFFD4]"
+              class="sm:text-lg w-3/4 truncate text-sm not-italic roboto-condensed-font underline text-[#4DFFD4]"
             >
               {{ questData?.followLink }}
             </p>
@@ -290,7 +327,7 @@ const copyToClipboard = async () => {
         </div>
         <div v-else-if="!following" class="w-1/6 flex justify-end pe-2">
           <img
-            @click="checkFollow"
+            @click="checkFollowed"
             class="sm:w-7 w-5 me-3 text-white"
             :src="followed ? tickSvg : arrowRotate"
           />
@@ -315,12 +352,12 @@ const copyToClipboard = async () => {
         >
           <div class="flex flex-col w-full">
             <p
-              class="sm:text-xl roboto-bold-italic inline-block text-md font-bold"
+              class="sm:text-xl roboto-condensed-font-italic inline-block text-md font-bold"
             >
               LIKE THIS TWEET
             </p>
             <p
-              class="sm:text-lg w-3/4 truncate text-sm not-italic underline text-[#4DFFD4]"
+              class="sm:text-lg w-3/4 truncate text-sm not-italic roboto-condensed-font underline text-[#4DFFD4]"
             >
               {{ questData?.likeLink }}
             </p>
@@ -363,12 +400,12 @@ const copyToClipboard = async () => {
         >
           <div class="flex flex-col w-full">
             <p
-              class="sm:text-xl roboto-bold-italic inline-block text-md font-bold"
+              class="sm:text-xl roboto-condensed-font-italic inline-block text-md font-bold"
             >
               REPOST THIS TWEET
             </p>
             <p
-              class="sm:text-lg w-3/4 truncate text-sm not-italic underline text-[#4DFFD4]"
+              class="sm:text-lg w-3/4 truncate text-sm not-italic roboto-condensed-font underline text-[#4DFFD4]"
             >
               {{ questData?.retweetLink }}
             </p>
@@ -393,7 +430,7 @@ const copyToClipboard = async () => {
         </div>
       </div>
       <div class="flex flex-col justify-center text-center my-10 text-white">
-        <p v class="text-xl roboto-bold-italic">ACCESS CODE</p>
+        <p v class="text-xl roboto-condensed-font-italic">ACCESS CODE</p>
         <div
           class="flex items-center justify-center flex-row w-full"
           v-if="
@@ -403,7 +440,7 @@ const copyToClipboard = async () => {
           "
         >
           <p
-            class="sm:text-4xl mx-auto relative text-3xl roboto-bold-italic text-center inline-block sm:my-5 my-2"
+            class="sm:text-4xl mx-auto relative text-3xl roboto-condensed-font-italic text-center inline-block sm:my-5 my-2"
           >
             {{ questData?.accessCode }}
             <img
@@ -423,7 +460,7 @@ const copyToClipboard = async () => {
             (questData?.retweetLink?.length > 0 ? retweeted : true)
           "
           :href="questData?.eventLink"
-          class="sm:py-4 py-2 w-[70%] cursor-pointer mx-auto text-center text-white sm:text-2xl text-lg font-bold italic bg-gradient-to-b from-[#FFDD00] from-10% rounded-full my-3 to-[#FF00D5]"
+          class="sm:py-4 py-2 w-[70%] cursor-pointer mx-auto text-center text-white sm:text-2xl text-lg roboto-condensed-font-italic bg-gradient-to-b from-[#FFDD00] from-10% rounded-full my-3 to-[#FF00D5]"
         >
           GO TO EVENT IN THE APP
         </a>
@@ -469,7 +506,7 @@ const copyToClipboard = async () => {
 
             <button
               @click="connectTwitter"
-              class="p-2 text-center flex items-center gap-2 justify-center text-xl roboto-bold-italic mt-5 text-white w-[90%] mx-auto rounded-full bg-gradient-to-b mb-4 from-[#309BFF] to-[#006EFF]"
+              class="p-2 text-center flex items-center gap-2 justify-center lg:text-xl sm:text-xs md:text-xs roboto-bold-italic mt-5 text-white w-[90%] mx-auto rounded-full bg-gradient-to-b mb-4 from-[#309BFF] to-[#006EFF]"
             >
               <img :src="successTwitterLogo" class="w-6 h-6" />
               SIGN IN WITH X (TWITTER)

@@ -26,6 +26,8 @@ router.get('/get-all-quests', questController.getAllQuests)
 router.get('/get-quest/:questId', questController.getQuest)
 router.delete('/delete-quest/:questId', questController.deleteQuest);
 router.post('/edit-quest', questController.editQuest)
+router.post('/post-folow-userToken', questController.followUserToken)
+router.post('/get-folow-userToken', questController.getFollowUserToken)
 router.get('/uploads/:filePath',questController.previewFile)
 
 module.exports = router
