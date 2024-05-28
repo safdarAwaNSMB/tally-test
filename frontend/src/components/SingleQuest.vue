@@ -89,7 +89,8 @@ const clickedFollowButtonHandler = async () => {
 }
 
 const checkFollowed = async () => {
-  await axios
+  if (userToken) {
+    await axios
         .post(
           `${backendUrl}/get-folow-userToken`,{userToken:userState?.user?.userData?.id,_id:questData._rawValue._id}
         )
@@ -99,6 +100,7 @@ const checkFollowed = async () => {
         })
         .catch((err) => console.log(err))
         .finally(() => (following.value = false));
+  }
 }
 
 const generateRandomString = () => {
