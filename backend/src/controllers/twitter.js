@@ -136,7 +136,6 @@ module.exports.checkFollow = async (req, res) => {
     res.status(200).json({ result: userFollowings.data.following });
   } catch (error) {
     console.log("error in checking follow");
-    console.log(error);
     res.status(500).send(error);
   }
 };
