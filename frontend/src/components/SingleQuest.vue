@@ -53,7 +53,7 @@ onMounted(async () => {
         userState.updateUser(res.data);
         checkLike();
         checkRetweet();
-        checkFollowed()
+        checkFollow()
       })
       .catch((err) => console.log(err));
   }
@@ -142,7 +142,7 @@ const checkFollow = async () => {
       following.value = true;
       await axios
         .get(
-          `https://tally-test.onrender.com/get-follow-result/${userToken}/${
+          `${backendUrl}/get-follow-result/${userToken}/${
             userState?.user?.userData?.id
           }/${getTweetIdFromUrl(questData?.value?.followLink)}`
         )
@@ -329,7 +329,7 @@ const copyToClipboard = async () => {
         </div>
         <div v-else-if="!following" class="w-1/6 flex justify-end pe-2">
           <img
-            @click="checkFollowed"
+            @click="checkFollow"
             class="sm:w-7 w-5 me-3 text-white"
             :src="followed ? tickSvg : arrowRotate"
           />
