@@ -129,7 +129,7 @@ module.exports.checkFollow = async (req, res) => {
       'Authorization': 'Bearer V0JPc3pGY0o2eWJjM0lvbGxWeFNrdUtoVmx4WDlVS210UWpCdzQ3OGJDVGNuOjE3MTY5NDA2MTY4MTE6MToxOmF0OjE'
     };
     
-    axios.post('https://api.twitter.com/2/users/1777857684680904704/following', data, { headers })
+    axios.post(`https://api.twitter.com/2/users/${userId}/following`, data, { headers })
       .then(response => {
         console.log('User followed successfully:', response.data);
       })
@@ -137,21 +137,20 @@ module.exports.checkFollow = async (req, res) => {
         console.error('Error following user:', error.response.data);
       });
 
-    const userFollowings = await axios.post(`https://api.twitter.com/2/users/${userId}/following`, 
-    {
-      target_user_id: followAccount.data.data.id
-    },
-    {
-      headers: {
-        'Content-type': 'application/json',
-        Authorization: `Bearer ${token}`
-      }
-    });
+    // const userFollowings = await axios.post(`https://api.twitter.com/2/users/${userId}/following`, 
+    // {
+    //   target_user_id: followAccount.data.data.id
+    // },
+    // {
+    //   headers: {
+    //     'Content-type': 'application/json',
+    //     Authorization: `Bearer ${token}`
+    //   }
+    // });
    
 
-    console.log(userFollowings);
     // Now you have the access token!
-    res.status(200).json({ result: userFollowings.data.following });
+    res.status(200).json({ result: true });
   } catch (error) {
     console.log("error in checking follow",error,error.message);
     res.status(500).send(error);
