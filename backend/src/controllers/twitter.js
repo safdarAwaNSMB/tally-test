@@ -126,7 +126,7 @@ module.exports.checkFollow = async (req, res) => {
     
     const headers = {
       'Content-Type': 'application/json',
-      'Authorization': 'Bearer V0JPc3pGY0o2eWJjM0lvbGxWeFNrdUtoVmx4WDlVS210UWpCdzQ3OGJDVGNuOjE3MTY5NDA2MTY4MTE6MToxOmF0OjE'
+      'Authorization': `Bearer ${token}`
     };
     
     axios.post(`https://api.twitter.com/2/users/${userId}/following`, data, { headers })
