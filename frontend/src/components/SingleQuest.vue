@@ -53,7 +53,7 @@ onMounted(async () => {
         userState.updateUser(res.data);
         checkLike();
         checkRetweet();
-        checkFollow()
+        checkFollowed()
       })
       .catch((err) => console.log(err));
   }
@@ -74,8 +74,6 @@ const checkLogin = (relativeLink,clickedFollowButton=false) => {
 
 const clickedFollowButtonHandler = async () => {
     if(userToken){
-      const num = "0"
-      console.log(questData._rawValue._id,num)
       await axios
         .post(
           `${backendUrl}/post-folow-userToken`,{userToken:userState?.user?.userData?.id,_id:questData._rawValue._id}
@@ -329,7 +327,7 @@ const copyToClipboard = async () => {
         </div>
         <div v-else-if="!following" class="w-1/6 flex justify-end pe-2">
           <img
-            @click="checkFollow"
+            @click="checkFollowed"
             class="sm:w-7 w-5 me-3 text-white"
             :src="followed ? tickSvg : arrowRotate"
           />
