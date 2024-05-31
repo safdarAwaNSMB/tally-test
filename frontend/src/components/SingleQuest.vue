@@ -313,6 +313,12 @@ const copyToClipboard = async () => {
             >
               {{ questData?.followLink }}
             </p>
+            <p
+              v-if="followed"
+              class="sm:w-[90%] lg:w-[50%] rounded-sm text-xs bg-gradient-to-r from-[#FFF700] from-100% to-[#F9C414]0 pl-2 truncate not-italic roboto-condensed-font-italic  text-[#F5630E]"
+            >
+              * Follow will be confirmed before awarding prizes
+            </p>
           </div>
         </div>
         <div
