@@ -288,10 +288,9 @@ const copyToClipboard = async () => {
         v-if="questData?.followLink?.length > 0"
         :class="
           followed
-            ? 'bg-gradient-to-r from-[#0077FB] from-50% to-[#15E6D4] py-2'
-            : 'bg-gradient-to-r from-[#5D0DE6] from-50% to-[#7439FF] py-4'
+            ? 'bg-gradient-to-r from-[#0077FB] from-50% to-[#15E6D4] py-2 flex text-white my-2 flex-row sm:gap-0 w-full items-center justify-between rounded-lg px-2 sm:pe-6'
+            : 'bg-gradient-to-r from-[#5D0DE6] from-50% to-[#7439FF] py-4 flex text-white my-2 flex-row sm:gap-0 w-full items-center justify-between rounded-lg px-2 sm:pe-6'
         "
-        class="flex text-white my-2 flex-row sm:gap-0 w-full items-center justify-between rounded-lg px-2 sm:pe-6"
       >
         <img
           class="w-[40px] sm:w-[80px] h-[25px] sm:h-[50px]"
