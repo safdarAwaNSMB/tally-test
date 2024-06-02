@@ -15,11 +15,13 @@ import Cookies from "js-cookie";
 import copyIcon from "../assets/images/copy-code-icon.png";
 import { useToast } from "vue-toast-notification";
 
+const backendUrl = import.meta.env.VITE_APP_BACKEND_URL;
+const twitterRedirectUrl = import.meta.env.VITE_APP_TWITTER_REDIRECT_URL;
+const twitterClientId = import.meta.env.VITE_APP_TWITTER_CLIENT_ID;
 const openTwitterLogin = ref(false);
 const questData = ref(null);
 const route = useRoute();
 const router = useRouter();
-const backendUrl = import.meta.env.VITE_APP_BACKEND_URL;
 const userState = userStore();
 const userToken = Cookies.get("userToken");
 const liked = ref(false);
@@ -119,7 +121,7 @@ async function connectTwitter() {
   try {
     const csrfState = Math.random().toString(36).substring(2);
 
-    let url = `https://twitter.com/i/oauth2/authorize?response_type=code&client_id=TFBkUFlmeldEeC1sTllPMHVnbnI6MTpjaQ&redirect_uri=https://tally-test.onrender.com/twitter-success&scope=tweet.read users.read follows.read like.read offline.access&state=${state}&code_challenge=abc123ABC&code_challenge_method=plain`;
+    let url = `https://twitter.com/i/oauth2/authorize?response_type=code&client_id=${twitterClientId}&redirect_uri=${twitterRedirectUrl}&scope=tweet.read users.read follows.read like.read offline.access&state=${state}&code_challenge=abc123ABC&code_challenge_method=plain`;
     url += "&state=" + csrfState;
     window.location.href = url;
     // window.open(url);
